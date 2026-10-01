@@ -1,0 +1,14 @@
+# QA / local artifacts
+output/
+undefined/
+
+# Accidental local copies
+* - Copy.*
+case-study-readwell - Copy.h
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

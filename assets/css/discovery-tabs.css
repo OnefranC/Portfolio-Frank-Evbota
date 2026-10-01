@@ -1,0 +1,78 @@
+/* Discovery tab carousel — matches original Framer Button-Nav + FRAME-Viewport */
+.fe-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0 14px;
+  align-items: center;
+}
+
+.fe-tabs__btn {
+  appearance: none;
+  border: 1.5px solid #f1f2f4;
+  background: #ffffff;
+  color: #686e7d;
+  font-family: "Lato", "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.fe-tabs__btn:hover {
+  color: var(--fe-ink);
+  border-color: #d5d8de;
+}
+
+.fe-tabs__btn:focus-visible {
+  outline: 2px solid var(--fe-ink);
+  outline-offset: 2px;
+}
+
+.fe-tabs__btn.is-active {
+  background: #686e7d;
+  border-color: #686e7d;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.fe-tabs-frame {
+  position: relative;
+  border: 1.5px solid #f1f2f4;
+  border-radius: 20px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.fe-tabs-frame__card {
+  display: none;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.fe-tabs-frame__card.is-active {
+  display: block;
+}
+
+.fe-tabs-frame__card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .fe-tabs {
+    gap: 8px;
+  }
+
+  .fe-tabs__btn {
+    padding: 8px 14px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}

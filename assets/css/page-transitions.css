@@ -1,0 +1,129 @@
+/* Multi-page view transitions + fallback */
+
+/* Chrome/Edge same-origin multi-page View Transitions */
+@view-transition {
+  navigation: auto;
+}
+
+/* Shared chrome stays put; main content crossfades */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: fe-vt-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fe-vt-in;
+}
+
+@keyframes fe-vt-out {
+  to {
+    opacity: 0;
+    transform: scale(0.992) translateY(-6px);
+    filter: blur(2px);
+  }
+}
+
+@keyframes fe-vt-in {
+  from {
+    opacity: 0;
+    transform: scale(1.008) translateY(10px);
+    filter: blur(3px);
+  }
+}
+
+/* Sticky header as a named transition group when supported */
+.fe-header {
+  view-transition-name: fe-header;
+}
+
+main {
+  view-transition-name: fe-main;
+}
+
+::view-transition-group(fe-header) {
+  animation-duration: 0.35s;
+}
+
+::view-transition-group(fe-main) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fallback: CSS class-based leave/enter when View Transitions API is missing */
+.fe-page-leaving main {
+  opacity: 0;
+  transform: translateY(12px) scale(0.995);
+  filter: blur(3px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease,
+    filter 0.28s ease;
+  pointer-events: none;
+}
+
+.fe-page-leaving .fe-header {
+  opacity: 0.35;
+  transition: opacity 0.28s ease;
+}
+
+/* Enter on load (fallback + complement to VT) */
+.fe-page-enter main {
+  animation: fe-page-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.fe-page-enter .fe-header {
+  animation: fe-header-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fe-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes fe-header-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reduced motion: no page transitions */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  .fe-page-leaving main,
+  .fe-page-leaving .fe-header,
+  .fe-page-enter main,
+  .fe-page-enter .fe-header {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
