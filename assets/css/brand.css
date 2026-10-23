@@ -165,17 +165,18 @@ body {
   color: #fff;
 }
 .fe-header--overlay .fe-nav__cta {
-  background: #fff !important;
-  color: #07080c !important;
+  background: transparent !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
+  color: #ffffff !important;
 }
 .fe-header--overlay .fe-nav__cta:hover {
-  opacity: 0.92;
+  background: rgba(255, 255, 255, 0.95) !important;
   color: #07080c !important;
+  border-color: #ffffff !important;
 }
 
-/* Scrolled state: darker + stronger separation so the dark header keeps
-   contrast when it rides over light/white sections below the hero.
-   Text stays white for maximum contrast on the dark background. */
+/* Scrolled state: header goes solid dark; nav CTA returns to secondary
+   (transparent/dark) so it doesn't clash with the light page below. */
 .fe-header--overlay.is-scrolled {
   background: #07080c;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -188,12 +189,14 @@ body {
   color: #fff;
 }
 .fe-header--overlay.is-scrolled .fe-nav__cta {
-  background: #fff !important;
-  color: #07080c !important;
+  background: transparent !important;
+  border: 1px solid rgba(37, 55, 70, 0.28) !important;
+  color: var(--fe-ink) !important;
 }
 .fe-header--overlay.is-scrolled .fe-nav__cta:hover {
-  opacity: 0.92;
-  color: #07080c !important;
+  background: rgba(37, 55, 70, 0.06) !important;
+  color: var(--fe-ink) !important;
+  border-color: rgba(37, 55, 70, 0.45) !important;
 }
 .fe-header--overlay.is-scrolled .fe-burger span {
   background: #fff;

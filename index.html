@@ -334,7 +334,8 @@
               (0.12 + fog * 0.85).toFixed(3) +
               ')';
             for (var i = 0; i < cols; i++) {
-              var x = -hw + (i / (cols - 1)) * hw * 2;
+              // Bias the field right so waves concentrate on the right side.
+              var x = -hw + (i / (cols - 1)) * hw * 2 + hw * 0.35;
               var y = height(x, z, t);
               var sx = W / 2 + (x / z) * f;
               if (sx < -4 || sx > W + 4) {
