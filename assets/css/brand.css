@@ -141,17 +141,17 @@ body {
   color: #fff !important;
 }
 
-/* —— Header blended into hero (homepage only) —— */
+/* —— Header dark sticky overlay (homepage only, works with dark hero) —— */
 .fe-header--overlay {
   position: sticky;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(7, 8, 12, 0.45);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(7, 8, 12, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: none;
 }
 .fe-header--overlay .fe-logo {
@@ -165,7 +165,7 @@ body {
   color: #fff;
 }
 .fe-header--overlay .fe-nav__cta {
-  background: #fff;
+  background: #fff !important;
   color: #07080c !important;
 }
 .fe-header--overlay .fe-nav__cta:hover {
@@ -173,26 +173,30 @@ body {
   color: #07080c !important;
 }
 
-/* Scrolled state: solid header so it stays readable over content below */
+/* Scrolled state: darker + stronger separation so the dark header keeps
+   contrast when it rides over light/white sections below the hero.
+   Text stays white for maximum contrast on the dark background. */
 .fe-header--overlay.is-scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom-color: var(--fe-line);
-  box-shadow: 0 8px 28px rgba(18, 21, 21, 0.06);
+  background: #07080c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 .fe-header--overlay.is-scrolled .fe-logo,
-.fe-header--overlay.is-scrolled .fe-nav a {
-  color: var(--fe-ink);
-}
+.fe-header--overlay.is-scrolled .fe-nav a,
 .fe-header--overlay.is-scrolled .fe-nav a:hover,
 .fe-header--overlay.is-scrolled .fe-nav a.is-active {
-  color: var(--fe-ink);
+  color: #fff;
 }
 .fe-header--overlay.is-scrolled .fe-nav__cta {
-  background: var(--fe-ink);
-  color: #fff !important;
+  background: #fff !important;
+  color: #07080c !important;
+}
+.fe-header--overlay.is-scrolled .fe-nav__cta:hover {
+  opacity: 0.92;
+  color: #07080c !important;
 }
 .fe-header--overlay.is-scrolled .fe-burger span {
-  background: var(--fe-ink);
+  background: #fff;
 }
 
 /* Keep the burger visible on mobile over the dark hero */
