@@ -8,7 +8,7 @@
       name="description"
       content="Frank Evbota — Product Designer crafting polished, meaningful digital experiences."
     />
-    <link rel="icon" href="assets/images/frank/favicon-light.svg" />
+    <link rel="icon" href="assets/images/icons/favicon-light.svg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/brand.css" />
@@ -25,31 +25,47 @@
         <nav class="fe-nav" data-fe-nav>
           <a class="is-active" href="index.html">Home</a>
           <a href="projects.html">Projects</a>
-          <a href="contact-me.html">Contact me</a>
-          <a class="fe-nav__cta" href="https://rxresu.me/onefranc/franklin-evbota-ux-resume" target="_blank" rel="noopener noreferrer">Download CV</a>
+          <a href="https://rxresu.me/onefranc/franklin-evbota-ux-resume" target="_blank" rel="noopener noreferrer">Download CV</a>
+          <a class="fe-nav__cta fe-nav__cta--secondary" href="contact-me.html">Contact me</a>
         </nav>
       </div>
     </header>
 
     <main>
-      <section class="fe-hero">
-        <div class="fe-hero__bg" data-parallax="0.18">
-          <img src="assets/images/frank/hero-bg.png" alt="Frank Evbota portfolio hero" />
-        </div>
-        <div class="fe-hero__content">
-          <h1>Hi, I'm Frank.</h1>
-          <p class="fe-hero__lead">
-            As a Product Designer, I craft polished, meaningful digital
-            experiences that merge creative thinking with practical usability.
-          </p>
-          <a class="fe-btn" href="projects.html">View My work</a>
+      <section class="fe-hero fe-rhythm fe-hero--3d">
+        <div class="fe-hero__3d-wrap">
+          <div class="fe-hero__bg" data-parallax="0.12">
+            <div class="fe-hero__layer fe-hero__layer--base">
+              <img
+                src="assets/images/hero-bg.png"
+                alt="Frank Evbota portfolio hero"
+              />
+            </div>
+            <div
+              class="fe-hero__layer fe-hero__layer--depth"
+              aria-hidden="true"
+            ></div>
+          </div>
+          <div class="fe-hero__card-wrap" data-tilt>
+            <div class="fe-hero__card">
+              <div class="fe-hero__content">
+                <h1>Hi, I'm Frank.</h1>
+                <p class="fe-hero__lead">
+                  As a Product Designer, I craft polished, meaningful digital
+                  experiences that merge creative thinking with practical
+                  usability.
+                </p>
+                <a class="fe-btn" href="projects.html">View My work</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section class="fe-section" data-animate="up">
+      <section class="fe-section fe-rhythm fe-about-section" data-animate-premium="up">
         <span class="fe-section__label">About</span>
         <div class="fe-about">
-          <div class="fe-about__body">
+          <div class="fe-about__body" data-stagger="120">
             <h2 class="fe-section__title">
               Designing products people understand and enjoy using.
             </h2>
@@ -80,66 +96,67 @@
           </div>
           <div class="fe-about__media" data-parallax="0.08">
             <img
-              src="assets/images/frank/about-thumb.png"
+              src="assets/images/about-thumb.png"
               alt="Product design work sample"
             />
           </div>
         </div>
       </section>
 
-      <div class="fe-marquee" aria-hidden="true">
-        <div class="fe-marquee__track">
-          <span>Services</span><span>Services</span><span>Services</span
-          ><span>Services</span><span>Services</span><span>Services</span>
-          <span>Services</span><span>Services</span><span>Services</span
-          ><span>Services</span><span>Services</span><span>Services</span>
+      <div class="fe-motion-block" aria-hidden="true">
+        <div class="fe-marquee" aria-hidden="true">
+          <div class="fe-marquee__track">
+            <span>Services</span><span>Services</span><span>Services</span
+            ><span>Services</span><span>Services</span><span>Services</span>
+            <span>Services</span><span>Services</span><span>Services</span
+            ><span>Services</span><span>Services</span><span>Services</span>
+          </div>
         </div>
+        <section class="fe-services" data-animate-premium="up">
+          <div class="fe-section" style="padding-bottom: 32px">
+            <span class="fe-section__label">What I do</span>
+            <h2 class="fe-section__title">From problem framing to polished product.</h2>
+            <p class="fe-section__lead">
+              Strategy, design, and development thinking — applied as one product
+              practice.
+            </p>
+          </div>
+          <div class="fe-services__list" data-stagger="120">
+            <div class="fe-service" data-animate="right">
+              <span class="fe-service__num">01</span>
+              <div>
+                <h3>Strategy</h3>
+                <p>Planning thoughtful digital solutions grounded in user and business goals.</p>
+              </div>
+              <div class="fe-service__tags">
+                <span>Research</span><span>Roadmaps</span><span>IA</span>
+              </div>
+            </div>
+            <div class="fe-service" data-animate="right">
+              <span class="fe-service__num">02</span>
+              <div>
+                <h3>Design</h3>
+                <p>Creating beautiful and intuitive user interfaces that feel effortless.</p>
+              </div>
+              <div class="fe-service__tags">
+                <span>UI/UX</span><span>Design systems</span><span>Prototypes</span>
+              </div>
+            </div>
+            <div class="fe-service" data-animate="right">
+              <span class="fe-service__num">03</span>
+              <div>
+                <h3>Development</h3>
+                <p>Building robust and scalable applications with designers in the loop.</p>
+              </div>
+              <div class="fe-service__tags">
+                <span>Web</span><span>Native app</span><span>Handoff</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <section class="fe-services">
-        <div class="fe-section" style="padding-bottom: 32px">
-          <span class="fe-section__label">What I do</span>
-          <h2 class="fe-section__title">From problem framing to polished product.</h2>
-          <p class="fe-section__lead">
-            Strategy, design, and development thinking — applied as one product
-            practice.
-          </p>
-        </div>
-        <div class="fe-services__list" data-stagger="120">
-          <div class="fe-service" data-animate="right">
-            <span class="fe-service__num">01</span>
-            <div>
-              <h3>Strategy</h3>
-              <p>Planning thoughtful digital solutions grounded in user and business goals.</p>
-            </div>
-            <div class="fe-service__tags">
-              <span>Research</span><span>Roadmaps</span><span>IA</span>
-            </div>
-          </div>
-          <div class="fe-service" data-animate="right">
-            <span class="fe-service__num">02</span>
-            <div>
-              <h3>Design</h3>
-              <p>Creating beautiful and intuitive user interfaces that feel effortless.</p>
-            </div>
-            <div class="fe-service__tags">
-              <span>UI/UX</span><span>Design systems</span><span>Prototypes</span>
-            </div>
-          </div>
-          <div class="fe-service" data-animate="right">
-            <span class="fe-service__num">03</span>
-            <div>
-              <h3>Development</h3>
-              <p>Building robust and scalable applications with designers in the loop.</p>
-            </div>
-            <div class="fe-service__tags">
-              <span>Web</span><span>Native app</span><span>Handoff</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="fe-section">
+      <section class="fe-section fe-rhythm" data-animate-premium="up">
         <span class="fe-section__label">Projects</span>
         <h2 class="fe-section__title">Selected work</h2>
         <p class="fe-section__lead">
@@ -156,7 +173,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/readwell-thumb.png" alt="ReadWell case study" />
+              <img src="assets/images/projects/readwell-thumb.png" alt="ReadWell case study" />
             </div>
             <p class="fe-project__desc">
               The READ WELL tool is designed to help adults learn how to read for
@@ -172,7 +189,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/theshop-thumb.png" alt="TheShop case study" />
+              <img src="assets/images/projects/theshop-thumb.png" alt="TheShop case study" />
             </div>
             <p class="fe-project__desc">
               An online retail platform that offers a diverse array of products
@@ -188,7 +205,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/mexieats-thumb.png" alt="MexiEats case study" />
+              <img src="assets/images/projects/mexieats-thumb.png" alt="MexiEats case study" />
             </div>
             <p class="fe-project__desc">
               A Mexican food ordering and delivery app for busy professionals to
@@ -196,32 +213,34 @@
             </p>
           </a>
           <div class="fe-projects-cta" style="grid-column: 1 / -1">
-            <a class="fe-btn fe-btn--dark" href="projects.html">View all projects</a>
+            <a class="fe-btn" href="projects.html" style="border-radius:999px;">View all projects</a>
           </div>
         </div>
       </section>
 
-      <section class="fe-cta">
-        <h2>Get in touch</h2>
-        <p>
-          Feel free to reach out if you want to have a chat, or have any
-          questions.
-        </p>
-        <a class="fe-btn fe-btn--dark" href="contact-me.html">Contact me</a>
-      </section>
     </main>
 
     <footer class="fe-footer">
       <div class="fe-footer__inner">
-        <span>© 2025 Frank Evbota</span>
-        <nav>
+        <nav class="fe-footer__nav" aria-label="Footer">
           <a href="index.html">Home</a>
           <a href="projects.html">Projects</a>
           <a href="contact-me.html">Contact me</a>
         </nav>
+        <div class="fe-footer__cta">
+          <h2>Get in touch</h2>
+          <p>Feel free to reach out if you want to have a chat, or have any questions</p>
+          <a class="fe-btn" href="contact-me.html">Contact me</a>
+        </div>
+        <div class="fe-footer__legal">
+          <span>Copyright © 2025 Evbota Franklin. All rights reserved.</span>
+        </div>
       </div>
     </footer>
     <script src="assets/js/scroll-animations.js"></script>
     <script src="assets/js/page-transitions.js"></script>
+    <script src="assets/js/gsap/gsap.js"></script>
+    <script src="assets/js/gsap/gsap-scroll-trigger.js"></script>
+    <script src="assets/js/hero-premium.js"></script>
   </body>
 </html>

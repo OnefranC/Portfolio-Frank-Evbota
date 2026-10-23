@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Projects — Frank Evbota</title>
     <meta name="description" content="Selected product design projects by Frank Evbota." />
-    <link rel="icon" href="assets/images/frank/favicon-light.svg" />
+    <link rel="icon" href="assets/images/icons/favicon-light.svg" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/brand.css" />
@@ -22,14 +22,14 @@
         <nav class="fe-nav" data-fe-nav>
           <a href="index.html">Home</a>
           <a class="is-active" href="projects.html">Projects</a>
-          <a href="contact-me.html">Contact me</a>
-          <a class="fe-nav__cta" href="https://rxresu.me/onefranc/franklin-evbota-ux-resume" target="_blank" rel="noopener noreferrer">Download CV</a>
+          <a href="https://rxresu.me/onefranc/franklin-evbota-ux-resume" target="_blank" rel="noopener noreferrer">Download CV</a>
+          <a class="fe-nav__cta fe-nav__cta--secondary" href="contact-me.html">Contact me</a>
         </nav>
       </div>
     </header>
 
     <main>
-      <div class="fe-page-hero" data-animate="fade">
+      <div class="fe-page-hero fe-rhythm" data-animate="fade">
         <h1>Projects</h1>
         <p>
           Case studies across literacy, retail, and food delivery — each owned
@@ -37,7 +37,8 @@
         </p>
       </div>
 
-      <section class="fe-section">
+      <section class="fe-section fe-rhythm">
+        <h2 class="fe-visually-hidden">Case studies</h2>
         <div class="fe-projects-grid" data-stagger="100">
           <a class="fe-project" data-animate="up" href="case-study-readwell.html">
             <div class="fe-project__meta">
@@ -48,7 +49,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/readwell-thumb.png" alt="ReadWell" />
+              <img src="assets/images/projects/readwell-thumb.png" alt="ReadWell" />
             </div>
             <p class="fe-project__desc">
               The READ WELL tool is designed to help adults learn how to read for
@@ -65,7 +66,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/theshop-thumb.png" alt="TheShop" />
+              <img src="assets/images/projects/theshop-thumb.png" alt="TheShop" />
             </div>
             <p class="fe-project__desc">
               An online retail platform that offers a diverse array of products
@@ -82,7 +83,7 @@
               <span class="fe-project__arrow" aria-hidden="true">→</span>
             </div>
             <div class="fe-project__media">
-              <img src="assets/images/frank/projects/mexieats-thumb.png" alt="MexiEats" />
+              <img src="assets/images/projects/mexieats-thumb.png" alt="MexiEats" />
             </div>
             <p class="fe-project__desc">
               A Mexican food ordering and delivery app for busy professionals to
@@ -93,24 +94,23 @@
         </div>
       </section>
 
-      <section class="fe-cta">
-        <h2>Get in touch</h2>
-        <p>
-          Feel free to reach out if you want to have a chat, or have any
-          questions.
-        </p>
-        <a class="fe-btn fe-btn--dark" href="contact-me.html">Contact me</a>
-      </section>
     </main>
 
     <footer class="fe-footer">
       <div class="fe-footer__inner">
-        <span>© 2025 Frank Evbota</span>
-        <nav>
+        <nav class="fe-footer__nav" aria-label="Footer">
           <a href="index.html">Home</a>
           <a href="projects.html">Projects</a>
           <a href="contact-me.html">Contact me</a>
         </nav>
+        <div class="fe-footer__cta">
+          <h2>Get in touch</h2>
+          <p>Feel free to reach out if you want to have a chat, or have any questions</p>
+          <a class="fe-btn" href="contact-me.html">Contact me</a>
+        </div>
+        <div class="fe-footer__legal">
+          <span>Copyright © 2025 Evbota Franklin. All rights reserved.</span>
+        </div>
       </div>
     </footer>
     <script src="assets/js/scroll-animations.js"></script>

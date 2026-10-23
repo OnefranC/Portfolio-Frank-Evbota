@@ -1,14 +1,20 @@
-# QA / local artifacts
+QA / local artifacts
 output/
 undefined/
+debug.log
 
-# Accidental local copies
+Accidental local copies
 * - Copy.*
 case-study-readwell - Copy.h
 
-# Editor / OS
+Editor / OS
 .DS_Store
 Thumbs.db
 *.swp
 .vscode/
 .idea/
+
+Tooling scratch dirs
+.serena/
+.remember/
+.abacusai-bot/

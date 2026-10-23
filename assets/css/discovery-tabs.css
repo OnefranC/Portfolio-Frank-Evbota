@@ -19,12 +19,20 @@
   padding: 10px 22px;
   border-radius: 100px;
   cursor: pointer;
-  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease, transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .fe-tabs__btn:hover {
   color: var(--fe-ink);
   border-color: #d5d8de;
+  background: #f6f7f9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(18, 21, 21, 0.08);
+}
+
+.fe-tabs__btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
 }
 
 .fe-tabs__btn:focus-visible {
@@ -63,6 +71,8 @@
   width: 100%;
   height: auto;
   margin: 0;
+  border-radius: 20px;
+  background: #f1f2f4;
 }
 
 @media (max-width: 600px) {

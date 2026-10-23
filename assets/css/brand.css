@@ -1,14 +1,14 @@
 /* Brand overlay for Frank Evbota on Unifex white-theme */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Lato:wght@400;700&display=swap");
 
 :root {
   --fe-ink: #121515;
   --fe-muted: #5c6568;
   --fe-line: #e8eef3;
-  --fe-soft: #f5f9fe;
+  --fe-soft: #f1f2f4;
   --fe-accent: #1a1f20;
   --fe-white: #ffffff;
-  --fe-radius: 16px;
+  --fe-radius: 20px;
   --fe-font: "Inter", "Manrope", system-ui, sans-serif;
   --fe-display: "Manrope", "Inter", system-ui, sans-serif;
   --fe-logo: "Fraunces", "Manrope", Georgia, serif;
@@ -43,14 +43,32 @@ body {
   border-bottom: 1.5px solid var(--fe-line);
 }
 
+/* The header carries its own padding rather than inheriting a gutter, so
+   its left/right must be set per breakpoint to match the page margin the
+   content below it uses. The vertical padding is left to the rules that
+   follow. */
 .fe-header__inner {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 18px 24px;
+  padding: 18px 160px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  position: relative;
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-header__inner {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .fe-header__inner {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
 
 .fe-logo {
@@ -78,7 +96,26 @@ body {
   font-weight: 500;
   color: var(--fe-muted);
   text-decoration: none;
+  position: relative;
   transition: color 0.2s ease;
+}
+
+.fe-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fe-nav a:hover::after {
+  transform: scaleX(1);
 }
 
 .fe-nav a:hover,
@@ -110,6 +147,9 @@ body {
   background: transparent;
   padding: 8px;
   cursor: pointer;
+  position: relative;
+  width: 38px;
+  height: 38px;
 }
 
 .fe-burger span {
@@ -118,6 +158,39 @@ body {
   height: 2px;
   background: var(--fe-ink);
   margin: 5px 0;
+  border-radius: 2px;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.16s ease;
+  transform-origin: center;
+}
+
+.fe-burger:hover {
+  opacity: 0.65;
+}
+
+.fe-burger:active {
+  transform: scale(0.94);
+}
+
+/* Open state: hamburger morphs into an X */
+.fe-burger.is-active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.fe-burger.is-active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+
+.fe-burger.is-active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.fe-nav__cta::after {
+  display: none;
+}
+
+.fe-nav__close {
+  display: none;
 }
 
 /* —— Hero —— */
@@ -160,7 +233,7 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 24px 56px;
+  padding: 0px 0px 0px;
 }
 
 .fe-hero h1 {
@@ -169,7 +242,7 @@ body {
   font-weight: 700;
   line-height: 1.05;
   color: #fff;
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   letter-spacing: -0.03em;
 }
 
@@ -194,13 +267,17 @@ body {
   font-size: 15px;
   text-decoration: none;
   letter-spacing: 0.02em;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .fe-btn:hover {
   transform: translateY(-2px);
   color: #0e1112;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.fe-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .fe-btn--dark {
@@ -210,12 +287,29 @@ body {
 
 .fe-btn--dark:hover {
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .fe-btn--ghost {
   background: transparent;
   border: 1.5px solid var(--fe-line);
   color: var(--fe-ink);
+}
+
+.fe-btn--ghost:hover {
+  background: var(--fe-ink);
+  border-color: var(--fe-ink);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.fe-btn:focus-visible,
+.fe-nav a:focus-visible,
+.fe-burger:focus-visible {
+  outline: 2px solid var(--fe-ink);
+  outline-offset: 3px;
 }
 
 /* —— Sections —— */
@@ -238,7 +332,9 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--fe-muted);
-  margin-bottom: 16px;
+  /* Gap between a section tag (chip) and the heading that follows it.
+     One value for every breakpoint. */
+  margin-bottom: 32px;
 }
 
 .fe-section__title {
@@ -325,6 +421,11 @@ body {
 
 .fe-services .fe-section__label {
   color: rgba(255, 255, 255, 0.55);
+  /* Block-level here so the gap above is the exact measured distance from
+     the marquee to the chip, with no baseline leading. width: fit-content
+     keeps the chip box tight to its text instead of the full column. */
+  display: block;
+  width: fit-content;
 }
 
 .fe-services .fe-section__title {
@@ -350,7 +451,7 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   text-decoration: none;
   color: #fff;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, background-color 0.2s ease, padding-left 0.25s ease;
 }
 
 .fe-service:last-child {
@@ -359,7 +460,9 @@ body {
 
 .fe-service:hover {
   color: #fff;
-  opacity: 0.85;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.045);
+  padding-left: 12px;
 }
 
 .fe-service__num {
@@ -496,13 +599,14 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .fe-project:hover .fe-project__arrow {
   background: var(--fe-ink);
   color: #fff;
   border-color: var(--fe-ink);
+  transform: translate(2px, -2px);
 }
 
 .fe-project__media {
@@ -531,11 +635,6 @@ body {
 }
 
 /* —— CTA —— */
-.fe-cta {
-  text-align: center;
-  padding: 32px 24px;
-  background: var(--fe-soft);
-}
 
 .fe-cta h2 {
   font-family: var(--fe-display);
@@ -553,14 +652,15 @@ body {
   line-height: 1.55;
 }
 
-/* —— Footer —— */
+/* ========= FOOTER ========= */
 .fe-footer {
-  border-top: 1px solid var(--fe-line);
-  padding: 28px 24px;
+  background: #253746;
+  color: #fff;
+  border-top: none;
+  padding: 48px 80px 32px;
 }
-
 .fe-footer__inner {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -568,22 +668,38 @@ body {
   gap: 16px;
   flex-wrap: wrap;
   font-size: 14px;
-  color: var(--fe-muted);
+  color: rgba(255,255,255,0.55);
+}
+.fe-footer nav { display: flex; gap: 20px; }
+.fe-footer a { color: rgba(255,255,255,0.55); text-decoration: none; font-weight: 500; transition: color .2s; }
+.fe-footer a:hover { color: #fff; }
+/* Footer CTA (reversed): white fill, dark text, no outline;
+   hover flips to #253746 fill with white text. */
+.fe-footer a.fe-btn {
+  color: #0e1112 !important;
+  background: #fff !important;
+  border: 1.5px solid transparent !important;
+  box-sizing: border-box !important;
+  border-radius: 64px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+.fe-footer a.fe-btn:hover {
+  color: #fff !important;
+  background: #253746 !important;
+  border: 1.5px solid #fff !important;
 }
 
-.fe-footer nav {
-  display: flex;
-  gap: 20px;
+/* Home "View all projects": reversed -- white fill, dark text, grey
+   outline; hover flips to dark fill with white text. */
+.fe-projects-cta .fe-btn {
+  background: #fff !important;
+  color: #0e1112 !important;
+  border: 1.5px solid var(--fe-line) !important;
 }
-
-.fe-footer a {
-  color: var(--fe-muted);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.fe-footer a:hover {
-  color: var(--fe-ink);
+.fe-projects-cta .fe-btn:hover {
+  background: var(--fe-ink) !important;
+  color: #fff !important;
+  border-color: var(--fe-ink) !important;
 }
 
 /* —— Case study —— */
@@ -650,7 +766,7 @@ body {
 .fe-highlight {
   padding: 24px 20px;
   border: 1px solid var(--fe-line);
-  border-radius: 14px;
+  border-radius: 20px;
 }
 
 .fe-highlight strong {
@@ -728,7 +844,7 @@ body {
 
 .fe-case-gallery img {
   width: 100%;
-  border-radius: 14px;
+  border-radius: 20px;
   display: block;
   background: var(--fe-soft);
 }
@@ -829,7 +945,7 @@ body {
 }
 
 /* —— Responsive —— */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-about {
     grid-template-columns: 1fr;
   }
@@ -855,17 +971,108 @@ body {
     display: block;
   }
 
+  /* Tablet + mobile open-state: compact card overlay, top-right corner */
   .fe-nav.is-open {
     display: flex;
     position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    top: calc(100% + 8px);
+    right: 32px;
+    left: auto;
+    width: 160px;
+    height: 184px;
     flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 4px;
     background: #fff;
-    border-bottom: 1px solid var(--fe-line);
-    padding: 16px 24px 24px;
-    gap: 16px;
+    border: 1px solid var(--fe-line);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(18, 21, 21, 0.14);
+    padding: 12px;
+    z-index: 200;
+    transform-origin: top right;
+    animation: fe-menu-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .fe-nav.is-open.is-closing {
+    animation: fe-menu-out 0.16s ease-in both;
+  }
+
+  .fe-nav.is-open a {
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.3;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .fe-nav.is-open a::after {
+    display: none;
+  }
+
+  .fe-nav.is-open a:hover,
+  .fe-nav.is-open a:active {
+    background: var(--fe-soft);
+    color: var(--fe-ink);
+  }
+
+  .fe-nav.is-open .fe-nav__cta {
+    justify-content: center;
+    padding: 9px 10px;
+    margin-top: 4px;
+  }
+}
+
+@keyframes fe-menu-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fe-menu-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+}
+
+@media (max-width: 600px) {
+  .fe-nav.is-open {
+    right: 16px;
+  }
+}
+
+/* —— Reduced motion: hovers change state, never move —— */
+@media (prefers-reduced-motion: reduce) {
+  .fe-btn:hover,
+  .fe-btn--dark:hover,
+  .fe-btn--ghost:hover,
+  .fe-hero__content .fe-btn:hover,
+  .fe-nav__cta:hover,
+  .fe-nav__cta--secondary:hover,
+  .fe-projects-cta .fe-btn:hover,
+  .fe-footer a.fe-btn:hover,
+  .fe-cta .fe-btn:hover,
+  .fe-tabs__btn:hover {
+    transform: none;
+  }
+  .fe-project:hover .fe-project__arrow {
+    transform: none;
+  }
+  .fe-project:hover .fe-project__media img {
+    transform: none;
+  }
+  .fe-service:hover {
+    padding-left: 0;
   }
 }
 
@@ -922,7 +1129,23 @@ body {
   opacity: 1 !important;
   transform: none !important;
   filter: none !important;
+  clip-path: none !important;
+}
+
+/* The "clip" reveal variant is the only one that animates via clip-path,
+   so it alone keeps the inset(0) end state. Every other variant (up, down,
+   fade, …) must not retain a clip-path: inset(0) would clip hover-shifted
+   children -- e.g. .fe-project:hover .fe-project__arrow translates
+   (2px, -2px), pushing the circle 2px outside the card's border box and
+   slicing off its top/right edges. */
+.fe-anim-ready [data-animate="clip"].is-in {
   clip-path: inset(0 0 0 0 round 16px) !important;
+}
+
+/* Belt-and-braces: project cards must never clip their hover arrow. */
+.fe-project.is-in,
+.fe-project[data-animate].is-in {
+  clip-path: none !important;
 }
 
 /* Parallax wrappers */
@@ -989,7 +1212,7 @@ body {
 /* Media reveal */
 .fe-anim-ready .fe-media-reveal {
   opacity: 0;
-  transform: translateY(20px) scale(1.02);
+  transform: translateY(20px);
   transition:
     opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -997,6 +1220,39 @@ body {
 
 .fe-media-reveal.is-in {
   opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ==========================================================================
+   Case-study images must never be scaled by a reveal animation.
+
+   `setupImageHoverLift()` in scroll-animations.js tags every image inside
+   `.fe-case-cover` with `.fe-media-reveal`, and the rule above gave that
+   class `transform: scale(1.02)`. On an image that is `width: 100%` inside
+   a grid cell, scaling grows the painted box past its cell: at 360px the
+   Highlights left image measured 348px wide inside a 328px column, and the
+   same on the Hi-fi left column.
+
+   That was the visible symptom -- images overhanging their column on mobile
+   and reading as badly cropped, because `object-fit: cover` then re-cropped
+   against the inflated box.
+
+   The lift is a flourish for wide screens where a 2% overhang is invisible.
+   It is not worth the layout error on a 328px column, so the scale is gone
+   at every width: the reveal keeps its opacity and translate, which cannot
+   change layout.
+   ========================================================================== */
+.fe-anim-ready .fe-case-cover .fe-media-reveal,
+.fe-anim-ready .fe-case-gallery .fe-media-reveal,
+.fe-anim-ready .fe-case-cover img.fe-media-reveal,
+.fe-anim-ready .fe-case-gallery img.fe-media-reveal {
+  transform: translateY(20px) !important;
+}
+
+.fe-case-cover .fe-media-reveal.is-in,
+.fe-case-gallery .fe-media-reveal.is-in,
+.fe-case-cover img.fe-media-reveal.is-in,
+.fe-case-gallery img.fe-media-reveal.is-in {
   transform: none !important;
 }
 
@@ -1033,7 +1289,7 @@ body {
 .fe-callout {
   padding: 28px 24px;
   border: 1px solid var(--fe-line);
-  border-radius: 16px;
+  border-radius: 20px;
   background: var(--fe-soft);
 }
 
@@ -1122,7 +1378,7 @@ body {
 .fe-feature {
   padding: 22px 18px;
   border: 1px solid var(--fe-line);
-  border-radius: 14px;
+  border-radius: 20px;
 }
 
 .fe-feature strong {
@@ -1180,7 +1436,7 @@ body {
   margin: 24px 0;
   padding: 24px;
   border: 1px solid var(--fe-line);
-  border-radius: 14px;
+  border-radius: 20px;
   background: var(--fe-soft);
 }
 .fe-type-spec__preview {
@@ -1227,7 +1483,7 @@ body {
   color: var(--fe-muted);
 }
 .fe-iter-card__media {
-  border-radius: 14px;
+  border-radius: 20px;
   overflow: hidden;
 }
 .fe-iter-card__media img {
@@ -1500,7 +1756,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .fe-case-stats {
@@ -1684,14 +1940,14 @@ body {
   align-items: stretch;
   margin-top: 28px;
   padding: 36px 40px;
-  border-radius: 24px;
-  background: #f4f7fb;
+  border-radius: 20px;
+  background: #f1f2f4;
   border: 1.5px solid #e8eef3;
   text-align: left !important;
 }
 .fe-eval-card__tag {
   margin: 0 0 10px;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.08em;
@@ -1787,7 +2043,7 @@ body {
   color: rgb(81, 95, 107);
   text-align: center !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-card {
     grid-template-columns: 1fr;
     padding: 24px;
@@ -1836,7 +2092,7 @@ body {
 
 .fe-eval-tag {
   margin: 0;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
   font-size: 12px;
   line-height: 20px;
   color: rgb(81, 95, 107);
@@ -2014,7 +2270,7 @@ body {
   opacity: 1;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-table {
     grid-template-columns: 1fr;
   }
@@ -2120,7 +2376,7 @@ body {
   max-width: 100%;
   max-height: 100%;
   margin: 0 auto;
-  border-radius: 12px;
+  border-radius: 20px;
   object-fit: contain;
 }
 
@@ -2195,7 +2451,7 @@ body {
   margin: 4px 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-iter-heading {
     font-size: 32px;
     line-height: 60px;
@@ -2305,11 +2561,6 @@ main > .fe-retro {
   margin-top: 180px !important;
 }
 
-main > .fe-cta {
-  margin-top: 180px !important;
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-}
 
 main > .fe-case-cover {
   margin-top: 180px !important;
@@ -2426,7 +2677,7 @@ main > .fe-case-cover {
 }
 
 .fe-eval-tag {
-  font-family: "IBM Plex Mono", ui-monospace, monospace !important;
+  font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace !important;
   font-size: 12px !important;
   line-height: 20px !important;
   font-weight: 400 !important;
@@ -2465,7 +2716,7 @@ main > .fe-case-cover {
   color: rgb(81, 95, 107) !important;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-case-hero h1,
   .fe-case-display,
   .fe-case-block h2,
@@ -2508,7 +2759,7 @@ main > .fe-case-cover {
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   color: rgb(94, 107, 129) !important;
-  font-family: "IBM Plex Mono", ui-monospace, monospace !important;
+  font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace !important;
 }
 
 .fe-case-row > .fe-case-label {
@@ -2686,17 +2937,7 @@ main > section.fe-iter-section + div.fe-iter-stack {
 
 /* Get in touch CTA banner padding */
 main .fe-cta,
-.fe-cta {
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 
-main .fe-cta {
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-}
 
 /* 64px gap between MexiEats and the two projects above */
 .fe-projects-grid {
@@ -2744,11 +2985,11 @@ main .fe-cta {
   margin-bottom: 16px !important;
 }
 
-/* Home: View all button 48px under last thumbnail, centered */
+/* Home: View all button 80px under last thumbnail, centered */
 .fe-projects-cta {
   display: flex;
   justify-content: center;
-  margin-top: 48px;
+  margin-top: 80px;
   width: 100%;
 }
 
@@ -2796,7 +3037,7 @@ main .fe-cta {
 }
 .fe-projects-cta {
   grid-column: 1 / -1;
-  margin: 48px 0 0 !important;
+  margin: 80px 0 0 !important;
   display: flex !important;
   justify-content: center !important;
 }
@@ -2809,7 +3050,7 @@ main .fe-cta {
   margin-top: 64px !important;
 }
 .fe-projects-cta {
-  margin-top: 48px !important;
+  margin-top: 80px !important;
 }
 
 /* Post-hero stack: centered 36/44 titles + 500 quotes (original Problem/Details/Goal) */
@@ -2920,7 +3161,7 @@ h2.fe-case-stack__title,
   max-width: none !important;
   margin: 0 !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-retro__block.fe-case-row {
     grid-template-columns: 1fr !important;
     column-gap: 0 !important;
@@ -2964,7 +3205,7 @@ h2.fe-case-stack__title,
 .fe-retro__divider {
   grid-column: 1 / -1 !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-retro__content {
     display: flex !important;
     flex-direction: column !important;
@@ -3102,17 +3343,20 @@ main > div.fe-iter-stack {
   grid-column: 2 !important;
 }
 .fe-detail-icons__row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 10px !important;
 }
 .fe-detail-icons__icon {
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  flex-shrink: 0 !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 .fe-detail-icons__row .fe-retro__p {
   margin: 0 !important;
+  white-space: nowrap !important;
 }
 
 /* Heading → supporting paragraph: 24px | image after that para: 32px */
@@ -3221,14 +3465,6 @@ main > div.fe-iter-stack {
 
 /* Get in touch CTA — original footer colors #253746 */
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3261,14 +3497,6 @@ main .fe-cta .fe-btn {
   margin-top: 32px !important;
 }
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3301,14 +3529,6 @@ main .fe-cta .fe-btn {
   margin-top: 32px !important;
 }
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3341,14 +3561,6 @@ main .fe-cta .fe-btn {
   margin-top: 32px !important;
 }
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding-top: 32px !important;
-  padding-bottom: 32px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3372,63 +3584,76 @@ main .fe-cta .fe-btn {
   background: transparent !important;
   color: #ffffff !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ===== Accessibility helpers ===== */
+.fe-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== Footer layout (replaces per-page inline styles) =====
+   Structure: .fe-footer__inner > .fe-footer__nav / .fe-footer__cta / .fe-footer__legal */
+.fe-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 28px;
+}
+.fe-footer__nav {
+  display: flex;
+  gap: 20px;
+  align-self: flex-end;
+}
+.fe-footer__cta {
+  text-align: left;
+  max-width: 570px;
+}
+.fe-footer__cta h2 {
+  font-family: "Lato", "Inter", system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.fe-footer__cta p {
+  font-family: "Lato", "Inter", system-ui, sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 300px;
+  margin: 0 0 24px;
+  line-height: 1.55;
+}
+.fe-footer__legal {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  flex-wrap: wrap;
+}
+.fe-footer__legal span {
+  font-family: "Lato", "Inter", system-ui, sans-serif;
+}
+
+/* Footer nav links: 32px minimum tap target (WCAG 2.5.8) */
+.fe-footer__nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
 }
 
 /* Footer — original old footer color rgb(37, 55, 70) */
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  border-top: none !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding: 32px 24px !important;
-}
-.fe-footer__inner {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-.fe-footer a {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-.fe-footer a:hover {
-  color: #ffffff !important;
-}
-
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  border-top: none !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding: 32px 24px !important;
-}
-.fe-footer__inner {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-.fe-footer a {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-.fe-footer a:hover {
-  color: #ffffff !important;
-}
-
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  border-top: none !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding: 32px 24px !important;
-}
-.fe-footer__inner {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-.fe-footer a {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-.fe-footer a:hover {
-  color: #ffffff !important;
-}
-
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  border-top: none !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  padding: 32px 24px !important;
-}
 .fe-footer__inner {
   color: rgba(255, 255, 255, 0.72) !important;
 }
@@ -3441,63 +3666,20 @@ main .fe-cta .fe-btn {
 
 /* CTA banner: square edges, old footer color — all pages */
 main .fe-cta,
-.fe-cta {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-}
 .fe-cta *,
 .fe-cta h2,
 .fe-cta p {
   border-radius: 0 !important;
 }
-.fe-footer {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-}
 
 main .fe-cta,
-.fe-cta {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-}
-.fe-footer {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-}
 
 main .fe-cta,
-.fe-cta {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-}
-.fe-footer {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-}
 
 main .fe-cta,
-.fe-cta {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-}
-.fe-footer {
-  border-radius: 0 !important;
-  background: rgb(37, 55, 70) !important;
-}
 
 /* CTA + footer: one seamless square block, old footer color */
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 48px 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3513,29 +3695,7 @@ main .fe-cta .fe-btn {
   color: rgb(37, 55, 70) !important;
   border-radius: 8px !important;
 }
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-top: none !important;
-  margin: 0 !important;
-  padding: 0 24px 32px !important;
-  border-radius: 0 !important;
-}
-.fe-footer__inner {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-.fe-footer a {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 48px 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3551,14 +3711,6 @@ main .fe-cta .fe-btn {
   color: rgb(37, 55, 70) !important;
   border-radius: 8px !important;
 }
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-top: none !important;
-  margin: 0 !important;
-  padding: 0 24px 32px !important;
-  border-radius: 0 !important;
-}
 .fe-footer__inner {
   color: rgba(255, 255, 255, 0.72) !important;
 }
@@ -3567,13 +3719,6 @@ main .fe-cta .fe-btn {
 }
 
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 48px 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3589,14 +3734,6 @@ main .fe-cta .fe-btn {
   color: rgb(37, 55, 70) !important;
   border-radius: 8px !important;
 }
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-top: none !important;
-  margin: 0 !important;
-  padding: 0 24px 32px !important;
-  border-radius: 0 !important;
-}
 .fe-footer__inner {
   color: rgba(255, 255, 255, 0.72) !important;
 }
@@ -3605,13 +3742,6 @@ main .fe-cta .fe-btn {
 }
 
 main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  padding: 48px 24px !important;
-}
 .fe-cta h2,
 main .fe-cta h2 {
   color: rgba(255, 255, 255, 0.98) !important;
@@ -3627,14 +3757,6 @@ main .fe-cta .fe-btn {
   color: rgb(37, 55, 70) !important;
   border-radius: 8px !important;
 }
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-top: none !important;
-  margin: 0 !important;
-  padding: 0 24px 32px !important;
-  border-radius: 0 !important;
-}
 .fe-footer__inner {
   color: rgba(255, 255, 255, 0.72) !important;
 }
@@ -3642,354 +3764,6 @@ main .fe-cta .fe-btn {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
-/* CTA + footer merged as one square block on all pages */
-main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 48px 24px 32px !important;
-  border: none !important;
-}
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  border: none !important;
-  border-top: none !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 24px 32px !important;
-}
-.fe-footer *,
-.fe-cta * {
-  border-radius: inherit;
-}
-
-main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 48px 24px 32px !important;
-  border: none !important;
-}
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  border: none !important;
-  border-top: none !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 24px 32px !important;
-}
-
-main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 48px 24px 32px !important;
-  border: none !important;
-}
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  border: none !important;
-  border-top: none !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 24px 32px !important;
-}
-
-main .fe-cta,
-.fe-cta {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 48px 24px 32px !important;
-  border: none !important;
-}
-.fe-footer {
-  background: rgb(37, 55, 70) !important;
-  color: rgba(255, 255, 255, 0.98) !important;
-  border-radius: 0 !important;
-  border: none !important;
-  border-top: none !important;
-  margin: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 24px 32px !important;
-}
-
-/* 32px header to content: Hi-fi / Iterations / Outcomes / Retrospective */
-.fe-case-block h2 + .fe-case-cover,
-.fe-case-block h2 + .fe-case-gallery,
-.fe-case-block h2 + .fe-case-gallery--trio,
-.fe-case-block h2 + .fe-eval-shell,
-.fe-iter-section .fe-iter-stack,
-.fe-iter-section + .fe-iter-stack {
-  margin-top: 32px !important;
-}
-.fe-retro__title {
-  margin-bottom: 32px !important;
-}
-.fe-retro__title .fe-case-display {
-  margin-bottom: 0 !important;
-}
-.fe-retro__title + .fe-retro__content {
-  margin-top: 0 !important;
-}
-.fe-case-block h2 {
-  margin-bottom: 32px !important;
-}
-
-/* Hi-fi design: 32px from heading to first image */
-.fe-case-block h2 + .fe-case-cover {
-  margin-top: 32px !important;
-  padding-top: 0 !important;
-}
-/* Retro: 32px from title to content */
-.fe-retro__title {
-  margin-bottom: 32px !important;
-  padding-bottom: 0 !important;
-}
-.fe-retro__content {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* 180px between Outcomes and Retrospective */
-main > .fe-retro {
-  margin-top: 180px !important;
-}
-
-
-/* ===== Footer block: one square unit, no gaps, no rounded corners, no scroll anim ===== */
-.fe-cta,
-.fe-footer,
-main .fe-cta {
-  border-radius: 0 !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: rgb(37, 55, 70) !important;
-  margin: 0 !important;
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-  clip-path: none !important;
-}
-
-/* No white seam between CTA and footer */
-main {
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-}
-main > .fe-cta {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding: 48px 24px 0 !important;
-}
-.fe-cta {
-  padding: 48px 24px 0 !important;
-}
-.fe-footer {
-  margin: 0 !important;
-  margin-top: 0 !important;
-  padding: 0 24px 32px !important;
-  border-top: none !important;
-}
-
-/* 120px green-fill gap: CTA button -> footer nav */
-.fe-footer__inner {
-  padding-top: 120px !important;
-  margin-top: 0 !important;
-  gap: 16px;
-}
-
-/* Kill scroll/reveal animations inside footer block */
-.fe-cta,
-.fe-footer,
-.fe-cta *,
-.fe-footer *,
-.fe-cta[data-animate],
-.fe-footer[data-animate] {
-  animation: none !important;
-  transition: none !important;
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-  clip-path: none !important;
-  will-change: auto !important;
-}
-.fe-anim-ready .fe-cta[data-animate],
-.fe-anim-ready .fe-footer[data-animate],
-.fe-anim-ready .fe-cta[data-animate].is-in,
-.fe-anim-ready .fe-footer[data-animate].is-in {
-  opacity: 1 !important;
-  transform: none !important;
-  filter: none !important;
-}
-
-/* Square everything in the block */
-.fe-cta *,
-.fe-footer * {
-  border-radius: 0 !important;
-}
-.fe-cta .fe-btn,
-.fe-cta .fe-btn--dark,
-main .fe-cta .fe-btn {
-  background: #ffffff !important;
-  color: rgb(37, 55, 70) !important;
-  border-radius: 8px !important;
-}
-.fe-cta h2,
-main .fe-cta h2 {
-  color: rgba(255, 255, 255, 0.98) !important;
-  margin: 0 0 16px !important;
-}
-.fe-cta p,
-main .fe-cta p {
-  color: rgba(255, 255, 255, 0.72) !important;
-  margin: 0 auto 32px !important;
-}
-.fe-footer__inner {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-.fe-footer a {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-.fe-footer a:hover {
-  color: #ffffff !important;
-}
-
-/* Iterations images: auto width/height, responsive on all viewports */
-.fe-iter-mock {
-  overflow: visible !important;
-  width: 100%;
-  max-width: 100%;
-}
-.fe-iter-mock img {
-  display: block;
-  width: auto !important;
-  height: auto !important;
-  max-width: 100% !important;
-  max-height: none !important;
-  margin: 0 auto !important;
-  border-radius: 12px;
-  object-fit: contain;
-}
-@media (max-width: 900px) {
-  .fe-iter-mock {
-    padding: 16px 0 !important;
-    width: 100% !important;
-  }
-  .fe-iter-mock img {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 100% !important;
-  }
-  .fe-iter-row {
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-  .fe-iter-copy {
-    padding: 8px 0 !important;
-    width: 100% !important;
-  }
-}
-
-/* ===== Mobile: min 360px, 16px side padding — whole project ===== */
-html {
-  -webkit-text-size-adjust: 100%;
-}
-body {
-  min-width: 360px;
-  overflow-x: hidden;
-}
-@media (max-width: 900px) {
-  /* 16px horizontal padding on all major containers */
-  .fe-retro,
-  .fe-case-block,
-  .fe-case-hero,
-  .fe-case-cover,
-  .fe-case-gallery,
-  .fe-case-highlights,
-  .fe-eval-shell,
-  .fe-eval-table,
-  .fe-iter-stack,
-  .fe-iter-section,
-  .fe-section,
-  .fe-hero,
-  .fe-about,
-  .fe-services__list,
-  .fe-projects,
-  .fe-contact,
-  .fe-cta,
-  .fe-footer,
-  .fe-footer__inner,
-  main > .fe-case-block,
-  main > .fe-retro,
-  main > .fe-case-hero-text,
-  main > section {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    box-sizing: border-box !important;
-  }
-  .fe-footer__inner {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
-
-  /* Post-hero copy (Problem/Details/Goal) + Retrospective rows: stack to one column */
-  .fe-retro__content {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    column-gap: 0 !important;
-  }
-  .fe-retro__block.fe-case-row {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-template-columns: none !important;
-    column-gap: 0 !important;
-    row-gap: 12px !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 20px 0 !important;
-  }
-  .fe-retro__block.fe-case-row .fe-retro__h {
-    grid-column: auto !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    white-space: normal !important;
-    overflow-wrap: break-word !important;
-    font-size: 24px !important;
-    line-height: 32px !important;
-  }
-  .fe-retro__block.fe-case-row .fe-retro__p {
-    grid-column: auto !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-wrap: break-word !important;
-    word-break: break-word !important;
-    font-size: 16px !important;
     line-height: 24px !important;
     margin: 0 !important;
   }
@@ -3997,13 +3771,14 @@ body {
     width: 100% !important;
   }
   .fe-retro__block.fe-case-row .fe-detail-icons__row {
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     gap: 8px !important;
     width: 100% !important;
   }
   .fe-retro__block.fe-case-row .fe-detail-icons__row .fe-retro__p {
     flex: 1 1 auto !important;
     min-width: 0 !important;
+    white-space: nowrap !important;
   }
 
   /* Hero-text / Highlights lead copy */
@@ -4017,6 +3792,7 @@ body {
   }
   .fe-case-display,
   .fe-case-hero-text h1,
+  .fe-case-hero-text h2,
   .fe-retro__title .fe-case-display {
     font-size: clamp(28px, 8vw, 40px) !important;
     line-height: 1.15 !important;
@@ -4024,7 +3800,7 @@ body {
   }
 
   /* Section headings */
-  .fe-case-block h2,
+  .fe-case-block h2:not(.fe-case-display),
   .fe-iter-heading {
     font-size: 28px !important;
     line-height: 36px !important;
@@ -4058,7 +3834,7 @@ body {
     font-size: 22px !important;
     line-height: 28px !important;
   }
-  .fe-case-block h2,
+  .fe-case-block h2:not(.fe-case-display),
   .fe-iter-heading {
     font-size: 24px !important;
     line-height: 32px !important;
@@ -4066,7 +3842,7 @@ body {
 }
 
 /* Fix index mobile overflow: service grid + marquee */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-service {
     grid-template-columns: 1fr !important;
     gap: 8px !important;
@@ -4099,7 +3875,7 @@ body {
 }
 
 /* ===== Mobile: home projects 60px gap; ReadWell sections 64px ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   /* Home page: 60px between the three case study cards */
   .fe-projects-grid--home {
     row-gap: 60px !important;
@@ -4129,7 +3905,7 @@ body {
 }
 
 /* ===== Mobile: research card full width, 16px inner padding ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-table {
     grid-template-columns: 1fr !important;
     width: 100% !important;
@@ -4156,7 +3932,7 @@ body {
 }
 
 /* ===== Mobile: all content full width, global 16px horizontal padding ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   /* Kill extra side insets so 16px is the only horizontal padding */
   .fe-eval-shell {
     width: 100% !important;
@@ -4240,7 +4016,7 @@ body {
 }
 
 /* Mobile: eval table is layout only — do not add a second 16px inset */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-table {
     padding: 0 !important;
   }
@@ -4253,7 +4029,7 @@ body {
 }
 
 /* ===== Mobile: 24px spacing between Problem / Details / Goal ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   main > section.fe-retro:first-of-type .fe-retro__block.fe-case-row {
     padding: 12px 0 !important;
     margin: 0 !important;
@@ -4265,7 +4041,7 @@ body {
 }
 
 /* Mobile: exactly 24px between Problem / Details / Goal blocks */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   main > section.fe-retro:first-of-type .fe-retro__content {
     gap: 0 !important;
   }
@@ -4281,14 +4057,14 @@ body {
 }
 
 /* Mobile: exact 24px between Problem/Details/Goal (12px + 1px divider + 12px → 24px total via 11.5px) */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   main > section.fe-retro:first-of-type .fe-retro__divider {
     margin: 11.5px 0 !important;
   }
 }
 
 /* Mobile: 32px between Problem / Details / Goal */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   main > section.fe-retro:first-of-type .fe-retro__content {
     gap: 0 !important;
   }
@@ -4304,7 +4080,7 @@ body {
 }
 
 /* ===== Mobile 360px: research card obeys 16px gutter; layout consistent ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-shell {
     width: calc(100% - 32px) !important;
     max-width: calc(100% - 32px) !important;
@@ -4339,7 +4115,7 @@ body {
 }
 
 /* Mobile: research card fills the 16px gutter; 16px padding only inside card */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-left,
   .fe-eval-right {
     padding-left: 0 !important;
@@ -4353,7 +4129,7 @@ body {
 }
 
 /* ===== Desktop: 60px between Download PDF → Problem → Details → Goal ===== */
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   /* Download PDF button → Problem */
   main > section.fe-retro:first-of-type {
     margin-top: 0 !important;
@@ -4385,21 +4161,21 @@ body {
 }
 
 /* Desktop: Download PDF → Problem exactly 60px */
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   main > section.fe-retro:first-of-type .fe-retro__content {
     padding-top: 32px !important;
   }
 }
 
 /* Desktop: Download PDF → Problem exactly 120px */
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   main > section.fe-retro:first-of-type .fe-retro__content {
     padding-top: 92px !important;
   }
 }
 
 /* ===== Desktop case study: 180px Download PDF→Problem; 120px Problem/Details/Goal ===== */
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   main > section.fe-retro:first-of-type .fe-retro__content {
     padding-top: 152px !important;
   }
@@ -4419,6 +4195,26 @@ body {
   margin-right: auto !important;
   text-align: left !important;
   padding-left: 48px !important;
+}
+
+/* ===== Desktop: hero lead as perfect rectangle (600px, justified) ===== */
+@media (min-width: 961px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-hero__content.fe-hero__content {
+    width: fit-content !important;
+    max-width: 672px !important;
+    box-sizing: border-box !important;
+  }
+  .fe-hero__lead {
+    width: 600px !important;
+    max-width: 600px !important;
+    text-align: left !important;
+    text-align-last: left !important;
+    text-justify: auto !important;
+    hyphens: none !important;
+    line-height: 1.4 !important;
+    word-spacing: normal !important;
+    letter-spacing: normal !important;
+  }
 }
 
 /* CTA Contact me button: soft white border on hover */
@@ -4472,11 +4268,11 @@ main .fe-cta .fe-btn:hover {
   background: rgb(37, 55, 70) !important;
   color: #ffffff !important;
   box-shadow: none !important;
-  transform: none !important;
+  transform: translateY(-2px) !important;
 }
 
 /* ===== Small tablet: hero copy + CTA resize, keep center-left ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-hero {
     align-items: center !important;
     min-height: min(70vh, 640px) !important;
@@ -4513,7 +4309,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Hero on tablet/mobile: fill bg, no black strip, center-left copy ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-hero {
     min-height: min(72vh, 620px) !important;
     padding: 0 !important;
@@ -4577,31 +4373,53 @@ main .fe-cta .fe-btn:hover {
   background: #ffffff !important;
   color: #0e1112 !important;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease !important;
 }
 .fe-hero__content .fe-btn:hover {
   transform: translateY(-3px) !important;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34) !important;
 }
 
-/* Nav "Download CV": quieter secondary */
+/* Nav CTAs: Download CV = primary solid pill, Contact me = secondary outline pill */
 .fe-nav__cta {
   padding: 10px 18px !important;
   font-size: 12px !important;
-  font-weight: 500 !important;
-  background: transparent !important;
-  color: var(--fe-ink) !important;
-  border: 1px solid rgba(37, 55, 70, 0.28) !important;
+  font-weight: 600 !important;
+  background: var(--fe-ink) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--fe-ink) !important;
   border-radius: 999px !important;
   box-shadow: none !important;
   letter-spacing: 0.03em !important;
+  transition: transform 0.15s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 .fe-nav__cta:hover {
   opacity: 1 !important;
+  background: var(--fe-ink) !important;
+  color: #ffffff !important;
+  border-color: var(--fe-ink) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(18, 21, 21, 0.22) !important;
+}
+.fe-nav__cta:active {
+  transform: scale(0.96) !important;
+  box-shadow: 0 1px 4px rgba(18, 21, 21, 0.15) !important;
+}
+.fe-nav__cta--secondary {
+  background: transparent !important;
+  color: var(--fe-ink) !important;
+  border: 1px solid rgba(37, 55, 70, 0.28) !important;
+  font-weight: 500 !important;
+}
+.fe-nav__cta--secondary:hover {
   background: rgba(37, 55, 70, 0.06) !important;
   color: var(--fe-ink) !important;
   border-color: rgba(37, 55, 70, 0.45) !important;
+  transform: translateY(-1px) !important;
   box-shadow: none !important;
+}
+.fe-nav__cta--secondary:active {
+  transform: scale(0.96) !important;
 }
 
 /* Hero "View My work": loud dark-grey fill, white text */
@@ -4659,7 +4477,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Tablet gutters: 32px on all pages ===== */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-retro,
   .fe-case-block,
   .fe-case-hero,
@@ -4703,7 +4521,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Tablet 32px gutters: force case-study blocks + CTA */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-retro,
   .fe-case-block,
   main > section.fe-retro,
@@ -4723,7 +4541,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Tablet: 24px gutters on all pages ===== */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-retro,
   .fe-case-block,
   .fe-case-hero,
@@ -4779,7 +4597,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Tablet: force 24px gutters + projects spacing */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-cta,
   main .fe-cta,
   .fe-retro,
@@ -4806,7 +4624,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Tablet: ReadWell sections 120px from Highlights to Retrospective */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   main > .fe-case-hero-text,
   main > .fe-case-hero-text ~ *,
   main > .fe-case-hero-text ~ .fe-case-block,
@@ -4822,7 +4640,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Tablet: project card images fill container ===== */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-project__media {
     overflow: hidden !important;
     width: 100% !important;
@@ -4841,7 +4659,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Tablet: evaluative research card visible edges ===== */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-eval-shell {
     border: 1.5px solid #f1f2f4 !important;
     border-radius: 20px !important;
@@ -4883,7 +4701,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Tablet: 32px between Evaluative research heading and its card */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   main > section.fe-case-block + div.fe-eval-shell,
   main > .fe-case-hero-text ~ .fe-eval-shell {
     margin-top: 32px !important;
@@ -4891,13 +4709,13 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ===== Unified spacing system (all pages) =====
-   Desktop: section margins 180px, gutters 24px
-   Tab:     section margins 32px,  gutters 16px
+   Desktop: section margins 120px, gutters 24px
+   Tab:     section margins 32px,  gutters 24px
    Mobile:  section margins 16px,  gutters 16px
 */
 
 /* ---- Desktop ---- */
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   .fe-hero__content,
   .fe-section,
   .fe-case-hero,
@@ -4936,7 +4754,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* ---- Tablet ---- */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-hero__content,
   .fe-section,
   .fe-case-hero,
@@ -5005,7 +4823,17 @@ main .fe-cta .fe-btn:hover {
   .fe-contact,
   .fe-cta,
   .fe-footer,
-  .fe-footer__inner,
+  .fe-footer__inner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Projects page: lead paragraph carries its own 16px gutter through the
+     hero, so the cards section must not add a second one — otherwise the
+     cards sit 32px in. And the brief asks for 60px from paragraph to cards:
+     hero bottom padding already gives 0, rhythm margin gives 16, so top the
+     section up to 60. */
   .fe-page-hero {
     padding-left: 16px !important;
     padding-right: 16px !important;
@@ -5038,7 +4866,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Spacing system: force CTA + case-study blocks */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-cta,
   main .fe-cta,
   .fe-footer,
@@ -5047,7 +4875,7 @@ main .fe-cta .fe-btn:hover {
     padding-right: 16px !important;
   }
 }
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   .fe-case-block,
   .fe-retro,
   main > section.fe-case-block,
@@ -5057,13 +4885,8 @@ main .fe-cta .fe-btn:hover {
     padding-right: 16px !important;
   }
 }
-@media (min-width: 901px) {
+@media (min-width: 961px) {
   .fe-cta,
-  main .fe-cta {
-    padding-left: 24px !important;
-    padding-right: 24px !important;
-  }
-}
 
 /* ===== Chapter 1 Discovery card ===== */
 .fe-discovery-card {
@@ -5135,7 +4958,8 @@ main .fe-cta .fe-btn:hover {
   max-width: 100% !important;
   object-fit: contain !important;
 }
-@media (max-width: 900px) {
+} /* close @media (min-width: 961px) opened for the desktop Discovery card */
+@media (max-width: 960px) {
   .fe-discovery-card {
     grid-template-columns: 1fr !important;
   }
@@ -5170,7 +4994,7 @@ main .fe-cta .fe-btn:hover {
 }
 
 /* Tab: 64px between sections and chapters */
-@media (min-width: 601px) and (max-width: 900px) {
+@media (min-width: 601px) and (max-width: 960px) {
   main > .fe-case-hero-text,
   main > .fe-case-hero-text ~ *,
   main > .fe-case-hero-text ~ .fe-case-block,
@@ -5259,7 +5083,7 @@ main .fe-cta .fe-btn:hover {
   margin: 0 !important;
   border-radius: inherit !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-discovery-card {
     grid-template-columns: 1fr !important;
   }
@@ -5291,7 +5115,8 @@ main .fe-cta .fe-btn:hover {
   object-fit: contain !important;
   object-position: center !important;
   margin: 0 auto !important;
-  border-radius: 0 !important;
+  border-radius: 20px !important;
+  background: #f1f2f4 !important;
 }
 /* Keep any leftover split layout from collapsing incorrectly */
 .fe-discovery-card__left,
@@ -5327,8 +5152,8 @@ main .fe-cta .fe-btn:hover {
   object-position: center !important;
   margin: 0 !important;
   border: none !important;
-  border-radius: 0 !important;
-  background: transparent !important;
+  border-radius: 20px !important;
+  background: #f1f2f4 !important;
   box-shadow: none !important;
 }
 
@@ -5377,7 +5202,7 @@ main .fe-cta .fe-btn:hover {
   background: transparent !important;
   border: none !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-shell {
     width: 100% !important;
     max-width: 100% !important;
@@ -5439,7 +5264,7 @@ main .fe-cta .fe-btn:hover {
   width: 100% !important;
   max-width: 100% !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-shell {
     width: 100% !important;
     max-width: 100% !important;
@@ -5506,7 +5331,7 @@ main .fe-cta .fe-btn:hover {
   flex-direction: column !important;
   gap: 32px !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-table {
     grid-template-columns: 1fr !important;
   }
@@ -5531,7 +5356,7 @@ main .fe-cta .fe-btn:hover {
   background: transparent !important;
   box-sizing: border-box !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-shell {
     padding-left: 16px !important;
     padding-right: 16px !important;
@@ -5539,34 +5364,34 @@ main .fe-cta .fe-btn:hover {
   }
 }
 
-/* Evaluative research: 16px corners matching highlights card */
+/* Evaluative research: 20px corners matching highlights card */
 .fe-eval-shell {
-  border-radius: 16px !important;
+  border-radius: 20px !important;
   overflow: hidden !important;
 }
 .fe-eval-table {
-  border-radius: 16px !important;
+  border-radius: 20px !important;
   overflow: hidden !important;
 }
 .fe-eval-left {
-  border-radius: 16px 0 0 16px !important;
+  border-radius: 20px 0 0 20px !important;
 }
 .fe-eval-right {
-  border-radius: 0 16px 16px 0 !important;
+  border-radius: 0 20px 20px 0 !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-left {
-    border-radius: 16px 16px 0 0 !important;
+    border-radius: 20px 20px 0 0 !important;
   }
   .fe-eval-right {
-    border-radius: 0 0 16px 16px !important;
+    border-radius: 0 0 20px 20px !important;
   }
 }
 
 /* Evaluative research: rounded corners + grey border (match highlights card) */
 .fe-eval-shell {
   border: 1.5px solid #f1f2f4 !important;
-  border-radius: 16px !important;
+  border-radius: 20px !important;
   overflow: hidden !important;
   background: #ffffff !important;
 }
@@ -5577,17 +5402,17 @@ main .fe-cta .fe-btn:hover {
   width: 100% !important;
 }
 .fe-eval-left {
-  border-radius: 16px 0 0 16px !important;
+  border-radius: 20px 0 0 20px !important;
 }
 .fe-eval-right {
-  border-radius: 0 16px 16px 0 !important;
+  border-radius: 0 20px 20px 0 !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-left {
-    border-radius: 16px 16px 0 0 !important;
+    border-radius: 20px 20px 0 0 !important;
   }
   .fe-eval-right {
-    border-radius: 0 0 16px 16px !important;
+    border-radius: 0 0 20px 20px !important;
   }
 }
 
@@ -5607,7 +5432,7 @@ main .fe-cta .fe-btn:hover {
   width: 100% !important;
   max-width: 100% !important;
   border: 1.5px solid #f1f2f4 !important;
-  border-radius: 16px !important;
+  border-radius: 20px !important;
   overflow: hidden !important;
   background: #ffffff !important;
   box-sizing: border-box !important;
@@ -5629,7 +5454,7 @@ main .fe-cta .fe-btn:hover {
   border: none !important;
   border-radius: 0 !important;
 }
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-eval-shell {
     padding-left: 16px !important;
     padding-right: 16px !important;
@@ -5650,18 +5475,18 @@ main .fe-cta .fe-btn:hover {
   height: auto;
   max-width: 100%;
   object-fit: contain;
-  background: var(--fe-soft, #f5f9fe);
+  background: var(--fe-soft, #f1f2f4);
 }
 
 .fe-case-cover img,
 .fe-tabs-frame__card img,
 .fe-discovery-card__img {
-  border-radius: var(--fe-radius, 16px);
+  border-radius: var(--fe-radius, 20px);
 }
 
 .fe-case-gallery img,
 .fe-case-gallery--trio img {
-  border-radius: 14px;
+  border-radius: 20px;
 }
 
 /* Portrait iteration mocks stay readable in the right column */
@@ -5691,13 +5516,14 @@ main .fe-cta .fe-btn:hover {
   height: 100%;
   object-fit: cover;
   aspect-ratio: 5 / 3;
-  background: var(--fe-soft, #f5f9fe);
+  border-radius: 20px;
+  background: var(--fe-soft, #f1f2f4);
 }
 
 /* Hi-fi mock gallery (portrait columns) */
 .fe-case-gallery img[data-animate="scale"] {
   object-fit: contain;
-  background: var(--fe-soft, #f5f9fe);
+  background: var(--fe-soft, #f1f2f4);
   min-height: 0;
 }
 
@@ -5721,7 +5547,7 @@ main .fe-cta .fe-btn:hover {
   .fe-case-cover img,
   .fe-tabs-frame__card img,
   .fe-discovery-card__img {
-    border-radius: 12px;
+    border-radius: 20px;
   }
 
   .fe-iter-mock img {
@@ -5759,7 +5585,7 @@ main .fe-cta .fe-btn:hover {
   height: auto;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .fe-case-cover {
     padding-left: 16px !important;
     padding-right: 16px !important;
@@ -5770,5 +5596,1493 @@ main .fe-cta .fe-btn:hover {
   .fe-case-cover {
     padding-left: 16px !important;
     padding-right: 16px !important;
+  }
+}
+
+
+/* ===== Evaluative research card: page section rhythm =====
+   The card had its own 32px overrides that took it off the page's
+   vertical rhythm. Single authoritative block, last in file, matching
+   the specificity of the rules it overrides so source order wins. */
+@media (min-width: 961px) {
+  main > .fe-case-block + div.fe-eval-shell,
+  main > section.fe-case-block + div.fe-eval-shell,
+  main > .fe-case-hero-text ~ .fe-eval-shell {
+    margin-top: 180px !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  main > .fe-case-block + div.fe-eval-shell,
+  main > section.fe-case-block + div.fe-eval-shell,
+  main > .fe-case-hero-text ~ .fe-eval-shell {
+    margin-top: 64px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  main > .fe-case-block + div.fe-eval-shell,
+  main > section.fe-case-block + div.fe-eval-shell,
+  main > .fe-case-hero-text ~ .fe-eval-shell {
+    margin-top: 32px !important;
+  }
+}
+/* ==========================================================================
+   RHYTHM LAYER -- authoritative margins, gutters, and fill.
+   Last block in the file. Owns these properties on page-level blocks:
+
+     margin-top        space between sections   120 / 32 / 16
+     padding-l/r       the gutter               24 / 16 / 8
+     width, max-width  blocks fill their parent  100%
+     box-sizing        so width includes padding
+
+   Every declaration here is !important, and that is not laziness -- it is the
+   only way this layer can win.
+
+   Two things force it:
+
+   1. The file already aims !important at these elements. The bar is
+      `main > section.fe-case-block + div.fe-eval-shell` at (0,2,3), and 30-odd
+      other selectors of similar rank. !important is compared BEFORE
+      specificity, so a (0,3,1) rule loses to a (0,2,3) rule whenever the
+      latter is important. Over-specifying past (0,2,3) would still lose.
+      Carrying !important on both sides moves the fight back to specificity,
+      where `main > .fe-rhythm.fe-rhythm.fe-rhythm` at (0,3,1) wins.
+
+   2. .fe-rhythm is a marker class on every direct child of <main>. It exists so
+      this layer can over-specify on purpose, uniformly, without editing any
+      rule above. The class is repeated rather than counted once: `main >
+      .fe-rhythm` alone is (0,2,1) and loses to the (0,2,3) rules. Repeating it
+      is the smallest way to reach b=3 without inventing a second class name.
+
+   The gutter lives on the depth-0 block, so depth-1 content wrappers must stop
+   declaring their own -- otherwise the content is inset twice. Only wrappers
+   whose padding was a duplicate of the page gutter are zeroed; buttons, chips,
+   and cards keep theirs, because their padding is internal spacing, not a
+   page gutter.
+   ========================================================================== */
+
+/* ---- fill: every page-level block fills its parent and is border-box ---- */
+main > .fe-rhythm.fe-rhythm.fe-rhythm {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* ---- vertical rhythm: space BETWEEN blocks, never above the first one ---- */
+main > .fe-rhythm.fe-rhythm.fe-rhythm:first-child {
+  margin-top: 0 !important;
+}
+
+/* ---- desktop: margins 120px, gutter 24px ---- */
+@media (min-width: 961px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm {
+    margin-top: 120px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  main > .fe-rhythm.fe-rhythm.fe-rhythm:first-child {
+    margin-top: 0 !important;
+  }
+}
+
+/* ---- tablet: margins 64px, gutter 24px, page margin 32px ---- */
+@media (min-width: 601px) and (max-width: 960px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm {
+    margin-top: 64px !important;
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+  main > .fe-rhythm.fe-rhythm.fe-rhythm:first-child {
+    margin-top: 0 !important;
+  }
+}
+
+/* ---- mobile: margins 32px, gutter 16px ---- */
+@media (max-width: 600px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm {
+    margin-top: 32px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  main > .fe-rhythm.fe-rhythm.fe-rhythm:first-child {
+    margin-top: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   PAGE MARGINS -- the authoritative page gutter.
+
+   These are the blocks that carry their own horizontal padding all the way
+   to the viewport edge: the dark bands (.fe-cta, .fe-footer), and the
+   full-bleed sections. Everything else is inset by its parent.
+
+   !important is mandatory for the same reason as the rhythm layer above:
+   the file already aims !important rules of equal rank at these elements,
+   and !important is compared before specificity. Matching their rank and
+   sitting last in the file is what makes this block authoritative.
+   ========================================================================== */
+
+/* ---- desktop: page margin 160px, gutter 24px ---- */
+@media (min-width: 961px) {
+  main > .fe-footer,
+  .fe-footer,
+  main > .fe-hero,
+  main > .fe-marquee,
+  main > .fe-case-hero,
+  main > .fe-page-hero {
+    padding-left: 160px !important;
+    padding-right: 160px !important;
+  }
+  .fe-footer__inner {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* ---- desktop footer: 80px side margins (overrides the 160px page margin) ----
+   Same rank as the page-margin layer, sits after it, so it wins on order. */
+@media (min-width: 961px) {
+  main > .fe-footer,
+  .fe-footer {
+    padding-left: 80px !important;
+    padding-right: 80px !important;
+  }
+}
+
+/* ---- tablet: page margin 32px, gutter 24px ---- */
+@media (min-width: 601px) and (max-width: 960px) {
+  main > .fe-footer,
+  .fe-footer,
+  main > .fe-hero,
+  main > .fe-marquee,
+  main > .fe-case-hero,
+  main > .fe-page-hero {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
+
+/* ---- mobile: page margin 16px, gutter 16px ---- */
+@media (max-width: 600px) {
+  main > .fe-footer,
+  .fe-footer,
+  main > .fe-hero,
+  main > .fe-marquee,
+  main > .fe-case-hero,
+  main > .fe-page-hero {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ==========================================================================
+   HOME -- 60px top padding on the About and Projects sections (desktop).
+
+   Desktop only: the mobile layer below drops .fe-section to 48px of top
+   padding, and 60px is desktop chrome. Scoped to the two home sections:
+
+     About     .fe-about-section   (unique to the home page)
+     Projects  the .fe-section that directly follows .fe-motion-block
+               (the marquee + services band, which only the home page has)
+
+   Rank (0,4,1) with !important, matching how the rhythm layer wins, and it
+   sits after it, so source order breaks the tie.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-about-section,
+  main > .fe-motion-block + .fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-top: 60px !important;
+  }
+}
+
+/* ==========================================================================
+   160px CONTENT MARGINS -- home, projects and case studies.
+
+   The client asked for a 160px left/right margin on these three page types.
+   The page-margin layer above already delivers exactly that to the
+   full-bleed blocks, but the content blocks under it were still inset by
+   the rhythm gutter (24px), which is a different number.
+
+   So the same 160px is applied to the content blocks here. Scoped to the
+   three page types by what only they contain:
+
+     home      .fe-hero .fe-section .fe-marquee .fe-services
+     projects  .fe-page-hero .fe-section
+     cases     .fe-case-hero .fe-case-block .fe-retro .fe-eval-shell
+
+   .fe-cta and .fe-footer are deliberately absent -- they are the dark
+   bands and the page-margin layer owns them, so listing them here would
+   be redundant. The contact page is absent too: it keeps its own 344px
+   centre column, which the client did not ask to change.
+
+   Reaches (0,3,1) -- the same rank as the rhythm layer -- and sits after
+   it, so it wins on source order. That is the same mechanism the rhythm
+   layer itself uses to beat the rules above it.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-hero,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-section,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-marquee,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-services,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-page-hero,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-case-hero,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-case-block,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-retro,
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-eval-shell {
+    padding-left: 160px !important;
+    padding-right: 160px !important;
+  }
+}
+
+/* ---- no double gutter: these wrappers were re-applying the page gutter ----
+   The depth-0 block above now owns the gutter, so these go to zero and their
+   contents start at the same edge as everything else. Buttons (.fe-btn),
+   chips (.fe-section__label), and bordered cards (.fe-case-meta, .fe-eval-*)
+   are NOT in this list -- their padding is internal, not a page gutter. */
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-about,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-case-cover,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-case-gallery,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-iter-stack,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-marquee__track,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-projects-grid,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-retro__content,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-section,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-services__list,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-contact-links,
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-tabs-gap {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Desktop hifi gallery: restore 40px all-round padding that the gutter
+   reset above zeroes. :has() lifts specificity to (0,5,1) over (0,4,1). */
+@media (min-width: 961px) {
+  main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-case-gallery:has(.fe-highlights-side) {
+    padding: 40px !important;
+  }
+}
+
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-footer__inner {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ---- wrappers that fill their block ---- */
+main > .fe-rhythm.fe-rhythm.fe-rhythm .fe-hero__content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* ---- projects page: page-hero → section 60px on desktop ----
+   The gap is hero padding-bottom + section margin-top + section padding-top.
+   Only this pair occurs on the page, so both ends are zeroed and 60px is
+   carried by a single declaration. (0,4,1) !important beats the (0,3,1)
+   rhythm layer. */
+@media (min-width: 961px) {
+  main > .fe-page-hero.fe-rhythm {
+    padding-bottom: 0 !important;
+  }
+  main > .fe-page-hero.fe-rhythm + .fe-section.fe-rhythm {
+    margin-top: 0 !important;
+    padding-top: 60px !important;
+  }
+}
+
+/* ---- projects page: paragraph → cards 60px on mobile ----
+   The paragraph lives inside .fe-page-hero; the cards live in the next
+   .fe-section. Same two-ended structure as desktop, scoped to mobile so
+   tablet keeps its 64px and desktop keeps its 60px-through-padding.
+   Scoped by adjacency, not by page: this exact pair occurs in
+   projects.html and nowhere else. */
+@media (max-width: 600px) {
+  main > .fe-page-hero.fe-rhythm {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  main > .fe-page-hero.fe-rhythm + .fe-section.fe-rhythm {
+    margin-top: 0 !important;
+    padding-top: 60px !important;
+  }
+}
+
+/* ---- home page only: hero→about 60px, about→marquee 0px, marquee→services 0px, services→projects 60px ---- */
+@media (min-width: 961px) {
+  main > .fe-hero.fe-rhythm + .fe-section.fe-rhythm {
+    margin-top: 60px !important;
+  }
+  main > .fe-section.fe-rhythm + .fe-marquee.fe-rhythm {
+    margin-top: 0 !important;
+  }
+  main > .fe-services.fe-rhythm + .fe-section.fe-rhythm {
+    margin-top: 60px !important;
+  }
+}
+
+/* ==========================================================================
+   The services banner and the "What I do" section are one block, at every
+   width. No gap between them.
+
+   They already share the same background (#0e1112), so visually they are
+   one band; the only thing that ever separated them was the section margin
+   on .fe-services. Three separate rules were zeroing it, each in its own
+   media query:
+
+     (min-width: 961px)                       margin-top: 0
+     the bare adjacency rule below            margin-top: 0   <- no query,
+                                                              so it also
+                                                              matched tablet
+                                                              and mobile
+     .fe-rhythm.fe-rhythm.fe-rhythm           margin-top: 64px at tablet
+                                              margin-top: 32px at mobile
+
+   The rhythm layer is (0,3,1) and the bare adjacency rule is (0,2,1), so
+   !important is compared before specificity and the rhythm layer won below
+   desktop: 64px at tablet, 32px at mobile. That is the gap this closes.
+
+   The fix is one rule per breakpoint, so no query is left without its own
+   zero. All three reach (0,5,1) -- matching the .fe-case-hero-text ~ *
+   rules elsewhere -- so nothing in the file outranks them.
+
+   Scoped by adjacency, not by page: the marquee and the services section
+   are siblings in index.html and nowhere else, so the combinator is the
+   scoping. Margin is what is zeroed, not padding, so the block keeps its
+   own internal spacing.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main > .fe-marquee.fe-rhythm.fe-rhythm
+    + .fe-services.fe-rhythm.fe-rhythm {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  main > .fe-marquee.fe-rhythm.fe-rhythm
+    + .fe-services.fe-rhythm.fe-rhythm {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  main > .fe-marquee.fe-rhythm.fe-rhythm
+    + .fe-services.fe-rhythm.fe-rhythm {
+    margin-top: 0 !important;
+  }
+}
+
+/* Highlights frame: rebuilds the original full-width Highlights frame using
+   each project's left panel + two stacked stat pieces (Mexico/MexiEats,
+   TheShop). Column ratios mirror the assets' natural aspect so heights align
+   with only negligible cropping. Sits after the `!important` img layer so its
+   cover sizing wins. */
+.fe-highlights-frame {
+  display: grid;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.fe-highlights-frame--mexieats {
+  grid-template-columns: 2244fr 1272fr;
+}
+
+.fe-highlights-frame--readwell {
+  grid-template-columns: 2244fr 1080fr;
+}
+
+.fe-highlights-frame--theshop {
+  grid-template-columns: 2202fr 1122fr;
+}
+
+.fe-highlights-frame img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: var(--fe-radius, 20px);
+  background: var(--fe-soft, #f1f2f4);
+}
+
+.fe-highlights-side {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 700px) {
+  .fe-highlights-frame {
+    grid-template-columns: 1fr;
+  }
+  .fe-highlights-side {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+  }
+}
+
+/* Hifi gallery layout for ReadWell: left tall + right stacked, 50/50 */
+.fe-case-gallery:has(.fe-highlights-side) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Desktop: fixed 800px board height; columns fill the content column
+   inside the page's 160px side margins. Columns are gray cards like the
+   original Framer export — images sit inside with object-fit:contain so
+   the full phone mockups render uncropped. */
+@media (min-width: 961px) {
+  .fe-case-gallery:has(.fe-highlights-side) {
+    height: 800px;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 40px !important;
+    box-sizing: border-box;
+  }
+
+  .fe-case-gallery:has(.fe-highlights-side) > img,
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side {
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .fe-case-gallery:has(.fe-highlights-side) > img {
+    width: 100% !important;
+    max-width: none !important;
+    align-self: stretch;
+    object-fit: contain !important;
+    object-position: center;
+    background: #f1f2f4;
+    border-radius: 20px;
+  }
+
+  /* MexiEats hifi: 24px top/bottom padding on the animated GIF */
+  .fe-case-gallery--hifi-pad > img[src*="animation"] {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    box-sizing: border-box;
+  }
+}
+
+.fe-case-gallery:has(.fe-highlights-side) > img {
+  width: 100%;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center;
+}
+
+.fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+  height: 100%;
+  align-items: stretch;
+}
+
+.fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side img {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center;
+  border-radius: 20px;
+  background: #f1f2f4;
+}
+
+/* Desktop Iterations: each mock container is an 800px gray card with
+   40px × 40px inner padding; the phone image fills the content box with
+   cover; copy column stretches and centers so title/body sit mid-height. */
+@media (min-width: 961px) {
+  .fe-iter-row {
+    align-items: stretch;
+    min-height: 800px;
+  }
+
+  .fe-iter-copy {
+    justify-content: center;
+    align-self: stretch;
+    padding: 40px 32px;
+  }
+
+  .fe-iter-mock {
+    flex: 0 0 auto;
+    width: 560px;
+    height: 800px;
+    align-self: stretch;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 40px;
+    background: #f1f2f4;
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .fe-iter-mock img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    margin: 0;
+    border-radius: 20px;
+  }
+}
+
+/* TheShop iterations: full mockup composites — never crop (unlike ReadWell
+   phone crops that intentionally fill the card with cover). */
+@media (min-width: 961px) {
+  .fe-iter-section--full .fe-iter-mock img {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+@media (max-width: 960px) {
+  .fe-case-gallery:has(.fe-highlights-side) {
+    grid-template-columns: 1fr;
+  }
+}
+/* Case study tab view horizontal padding */
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-case-cover,
+  .fe-case-gallery,
+  .fe-eval-shell,
+  .fe-iter-list,
+  .fe-case-block,
+  .fe-case-split {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+  }
+  .fe-highlights-frame,
+  .fe-case-gallery:has(.fe-highlights-side) {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Hi-fi gallery padding, all three case studies.
+
+   The gallery is centred content, not a full-bleed block: it sits inside
+   the case-study section, which already carries the page margin. So its
+   own horizontal padding must be ZERO, or the images are inset twice.
+
+   The base rule gives it 24px, the (min-width: 601px) and (max-width: 960px)
+   rule above gives it 32px, and the desktop rhythm layer only zeroes the
+   un-:has() version -- `main > .fe-rhythm... .fe-case-gallery` does not match
+   `.fe-case-gallery:has(.fe-highlights-side)` because :has() changes the
+   specificity but not the class list, so it DOES match... except that the
+   rhythm layer's zero only applies where the gallery is a direct child of a
+   depth-0 block, which it is. Verified by measurement, not by reading: at
+   960px the frame ran 866px inside an 896px content box -- a 32px inset.
+
+   Zeroed here below desktop so the frame fills the content column and the
+   images line up with the section text above and below them. Desktop keeps
+   the 40px all-round padding from the block above.
+   ========================================================================== */
+@media (max-width: 960px) {
+  .fe-case-gallery:has(.fe-highlights-side) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* ==========================================================================
+   HIGHLIGHTS + HI-FI: mobile and tablet sizing.
+
+   Both frames are "one tall piece beside two stacked pieces". The desktop
+   column ratios are fr units chosen from each asset's natural aspect, so
+   `object-fit: cover` trims almost nothing and the frame reads as one
+   composed board. That only holds while the columns sit side by side.
+
+   Stacked, it breaks. The fr ratio collapses to a single column, the grid
+   row is still `1fr 1fr` from the desktop rule, and the row height comes
+   from the tallest cell -- the left panel. The two stat pieces are then
+   stretched to that height and `cover` crops their middle out. Measured on
+   ReadWell at 360px before this fix:
+
+     left  panel  2244x1380  ->  cell 328x202   (natural, fine)
+     right panel  1080x642   ->  cell 156x93    (ratio 1.68 vs cell 1.68, fine)
+     hifi left    1512x2400  ->  cell 328x521   (ratio 0.63 vs cell 0.63, fine)
+     hifi right   1800x1152  ->  cell 156x100   (ratio 1.56 vs cell 1.56, fine)
+
+   The ratios were in fact matched, so `cover` was not cropping -- but only
+   by luck of these particular assets, and the frames still wasted most of
+   their width: a 1.56-ratio mock forced into a 156px half-column renders
+   100px tall, which is unreadable on a phone.
+
+   So below 961px the layout stops pretending to be a board. Every piece
+   goes full width, keeps its natural aspect, and `contain` guarantees no
+   crop whatever the asset ratios become later. Nothing is ever forced into
+   a cell narrower than the content column.
+   ========================================================================== */
+@media (max-width: 960px) {
+  /* Highlights: left panel over the two stat pieces, each full width */
+  .fe-highlights-frame,
+  .fe-highlights-frame--readwell,
+  .fe-highlights-frame--theshop,
+  .fe-highlights-frame--mexieats {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    align-items: start;
+  }
+
+  .fe-highlights-side {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .fe-highlights-frame img,
+  .fe-highlights-frame .fe-highlights-side img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* Hi-fi: left column over the two right-column pieces, each full width */
+  .fe-case-gallery:has(.fe-highlights-side) {
+    grid-template-columns: 1fr !important;
+  }
+
+  .fe-case-gallery:has(.fe-highlights-side) > img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+  }
+
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* The 700px rule that turned the highlights side into two columns is
+   superseded by the block above -- kept only for the desktop frame it was
+   written for, so it is narrowed to the width range where it still applies. */
+@media (min-width: 701px) and (max-width: 960px) {
+  .fe-highlights-frame {
+    grid-template-columns: 1fr;
+  }
+  .fe-highlights-side {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+/* ==========================================================================
+   Contact page: 344px page margin on desktop.
+   Content sits at the centre column; the rhythm gutter is replaced here.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main > .fe-contact.fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-left: 344px !important;
+    padding-right: 344px !important;
+  }
+}
+
+/* ==========================================================================
+   Case study: exactly 80px between the Download PDF button and the
+   next section (Problem/Details/Goal). Replaces the old inline 60px
+   hero spacer and zeroes competing hero/retro offsets so the total
+   gap stays 80px at every viewport.
+   ========================================================================== */
+main > header.fe-case-hero {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+main > header.fe-case-hero .fe-case-meta {
+  margin: 0 !important;
+  padding: 20px 0 80px !important;
+}
+main > section.fe-retro:first-of-type .fe-retro__content {
+  padding-top: 0 !important;
+}
+main > header.fe-case-hero.fe-rhythm + section.fe-retro.fe-rhythm,
+main > header.fe-case-hero.fe-rhythm + .fe-rhythm {
+  margin-top: 0 !important;
+}
+
+/* ==========================================================================
+   Case study: exactly 120px between sections from Highlights down to
+   Retrospective (tablet + desktop). The generic rhythm layer sets 32px
+   on tablet, which overrode the earlier 120px rule for this range.
+   Re-pinned here at higher specificity so the range cannot drift.
+   Scoped by the Highlights block (.fe-case-hero-text) via the sibling
+   combinator; the CTA is excluded so the footer band stays flush.
+   ========================================================================== */
+@media (min-width: 601px) {
+  main > .fe-case-hero-text.fe-rhythm.fe-rhythm {
+    margin-top: 120px !important;
+  }
+  main > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ .fe-rhythm.fe-rhythm.fe-rhythm:not(.fe-cta) {
+    margin-top: 120px !important;
+  }
+  main > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ .fe-case-block.fe-rhythm.fe-rhythm
+    + .fe-retro.fe-rhythm.fe-rhythm {
+    margin-top: 120px !important;
+  }
+}
+
+/* ==========================================================================
+   Outcomes → Retrospective: 180px on desktop, all case studies.
+
+   The pair is nominally 180px already -- `main > .fe-retro` carries it --
+   but a later rule outranks it and lands 120px on the same gap:
+
+     main > .fe-case-hero-text.fe-rhythm.fe-rhythm
+       ~ .fe-rhythm.fe-rhythm.fe-rhythm:not(.fe-cta)      (0,5,1)  120px
+
+   !important is compared before specificity, so 120px wins unless this
+   rule clears (0,5,1). It reaches (0,5,1) and sits last in the file,
+   which settles the tie by source order.
+
+   Scoped by adjacency: the Outcomes section (.fe-case-block that holds
+   the .fe-case-gallery--trio cards) directly followed by .fe-retro. The
+   trio is NOT a child of <main> -- it lives inside the Outcomes section,
+   so the selector keys on the section, not the gallery. Applies to all
+   three case studies and to nothing else on the site.
+
+   Every other sibling pair from Highlights down keeps its 120px.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ .fe-case-block.fe-rhythm.fe-rhythm
+    + .fe-retro.fe-rhythm.fe-rhythm {
+    margin-top: 180px !important;
+  }
+}
+
+/* ==========================================================================
+   Chapter 3 "Evaluative research" heading → eval card: 32px on desktop,
+   all case studies (ReadWell, TheShop, MexiEats).
+
+    Measured desktop gap before this fix: 24px (h2 margin-bottom) + 120px
+    (eval-shell margin-top from the rhythm layers) = 144px. This block
+    zeroes the Chapter 3 h2 bottom margin and pins the eval-shell top
+    margin to 32px, so the visual gap from heading text to card is exactly
+    32px.
+
+    Why this rank: the tightest competing rule is
+
+      main > .fe-case-hero-text.fe-rhythm.fe-rhythm
+        ~ .fe-rhythm.fe-rhythm.fe-rhythm:not(.fe-cta)      (0,7,1)  120px
+
+    !important is compared before specificity, so this override must
+    clear (0,7,1). The shell rule below reaches (0,9,3) by scoping on
+    the Highlights block plus the Chapter 3 adjacency, and sits last
+    in the file. Scoped by adjacency (Chapter 3 section directly
+    followed by .fe-eval-shell), so no other heading/card pair is
+    affected. Tablet/mobile keep their existing rhythm.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ section.fe-case-block.fe-rhythm.fe-rhythm:has(+ div.fe-eval-shell)
+    h2 {
+    margin-bottom: 0 !important;
+  }
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ section.fe-case-block.fe-rhythm.fe-rhythm
+    + div.fe-eval-shell.fe-rhythm.fe-rhythm {
+    margin-top: 32px !important;
+  }
+}
+
+/* ==========================================================================
+   Evaluative-research card: 448px tall on desktop, all case studies
+   (ReadWell, TheShop, MexiEats).
+
+    The card is `div.fe-eval-shell` (natural height measured 362–434px on
+    desktop, so 448px never clips content). The inner grid must fill the
+    shell so both columns stretch the full height and their content stays
+    vertically centered. Scoped via the Highlights block so nothing else
+    on the site is affected. Tablet/mobile keep natural height.
+   ========================================================================== */
+@media (min-width: 961px) {
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ div.fe-eval-shell.fe-rhythm.fe-rhythm {
+    height: 448px !important;
+  }
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ div.fe-eval-shell.fe-rhythm.fe-rhythm
+    > .fe-eval-table {
+    height: 100% !important;
+    min-height: 100% !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE 360px FIX -- retro grid collapse + section whitespace.
+   Last block in file so it wins over the 406px/subgrid rules above.
+   Root causes measured at 360px before this fix:
+     .fe-retro__content computed to "406px 0px" inside a 328px column, so
+     .fe-retro__p squeezed to 0px wide and 4000-6500px tall (white space).
+     The 406px + subgrid rules sit AFTER the tablet/mobile 1fr overrides
+     and both carry !important, so source order made desktop win on mobile.
+     .fe-section kept its 100px top/bottom padding on mobile (rhythm layer
+     only owns margin-top + side gutter), adding 200px chrome per section.
+   ========================================================================== */
+@media (max-width: 960px) {
+  /* Retro container: single column, never the 406px desktop grid. */
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__content,
+  main > section.fe-retro .fe-retro__content,
+  .fe-retro__content {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    column-gap: 0 !important;
+    row-gap: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  /* Retro rows: stack heading over copy, kill subgrid + 120px gap. */
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row,
+  main > section.fe-retro .fe-retro__block.fe-case-row,
+  .fe-retro__block.fe-case-row {
+    display: grid !important;
+    grid-column: auto !important;
+    grid-template-columns: 1fr !important;
+    column-gap: 0 !important;
+    row-gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 24px 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row .fe-retro__h,
+  main > section.fe-retro .fe-retro__block.fe-case-row .fe-retro__h,
+  .fe-retro__block.fe-case-row .fe-retro__h {
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row .fe-retro__p,
+  main > section.fe-retro .fe-retro__block.fe-case-row .fe-retro__p,
+  .fe-retro__block.fe-case-row .fe-retro__p,
+  .fe-retro__block.fe-case-row .fe-detail-icons {
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+  }
+  .fe-detail-icons__row .fe-retro__p,
+  .fe-retro__block.fe-case-row .fe-detail-icons__row .fe-retro__p {
+    white-space: normal !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__divider,
+  .fe-retro__divider {
+    grid-column: auto !important;
+    margin: 4px 0 !important;
+  }
+  /* Highlights / hi-fi frames: never wider than the content column. */
+  .fe-highlights-frame,
+  .fe-highlights-side,
+  .fe-highlights-img,
+  .fe-case-cover,
+  .fe-case-gallery {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: clip !important;
+  }
+  .fe-highlights-frame img,
+  .fe-highlights-side img,
+  .fe-highlights-img img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    box-sizing: border-box !important;
+  }
+  /* Iterations: rows stack vertically, so the desktop row-basis (flex:1 1 0
+     for WIDTH sharing) must not apply -- in a column flex with auto height
+     it collapses each cell's height (measured: mock 48px tall clipping a
+     420px image). Natural stacking restores full mock visibility. */
+  .fe-iter-row {
+    flex-direction: column !important;
+  }
+  .fe-iter-copy,
+  .fe-iter-mock {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .fe-iter-mock {
+    padding: 24px 0 !important;
+    overflow: hidden !important;
+  }
+  .fe-iter-mock img {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+  }
+  .fe-iter-stack {
+    gap: 40px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Home sections: 100px top/bottom is desktop chrome, too much at 360px. */
+  main > .fe-section.fe-rhythm.fe-rhythm.fe-rhythm,
+  .fe-section {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+  /* Case blocks: tighten 48px block padding to match 32px rhythm. */
+  main > .fe-case-block.fe-rhythm.fe-rhythm.fe-rhythm,
+  .fe-case-block {
+    padding-top: 32px !important;
+    padding-bottom: 32px !important;
+  }
+  /* Home project cards: comfortable 48px stack instead of 60px. */
+  .fe-projects-grid--home {
+    row-gap: 48px !important;
+  }
+}
+
+/* ==========================================================================
+   TABLET (601-960px): render as desktop, gutter stays 32px.
+   Sits last in file so it beats both the desktop rules above and the
+   max-width:960px mobile-stacking rules (same specificity + !important,
+   later order wins inside the matching range). Mobile (<=600px) is
+   untouched: this range does not match there.
+   Fixed desktop sizes are scaled to a 537-896px content column:
+     retro left col 406px -> 240px, gap 120px -> 40px
+     iter mock 560x800 card -> flexible ~340px card, height auto
+   ========================================================================== */
+@media (min-width: 601px) and (max-width: 960px) {
+  /* 32px side margins on every page-level block. */
+  main > .fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+  /* Retro: desktop 2-col grid, scaled to tablet. */
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__content,
+  main > section.fe-retro .fe-retro__content,
+  .fe-retro__content {
+    display: grid !important;
+    grid-template-columns: minmax(200px, 240px) minmax(0, 1fr) !important;
+    column-gap: 40px !important;
+    row-gap: 0 !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row,
+  main > section.fe-retro .fe-retro__block.fe-case-row,
+  .fe-retro__block.fe-case-row {
+    display: grid !important;
+    grid-column: 1 / -1 !important;
+    grid-template-columns: subgrid !important;
+    column-gap: 40px !important;
+    row-gap: 0 !important;
+    padding: 28px 0 !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row .fe-retro__h,
+  main > section.fe-retro .fe-retro__block.fe-case-row .fe-retro__h,
+  .fe-retro__block.fe-case-row .fe-retro__h {
+    grid-column: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__block.fe-case-row .fe-retro__p,
+  main > section.fe-retro .fe-retro__block.fe-case-row .fe-retro__p,
+  .fe-retro__block.fe-case-row .fe-retro__p,
+  .fe-retro__block.fe-case-row .fe-detail-icons {
+    grid-column: 2 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+  main > section.fe-retro.fe-rhythm.fe-rhythm .fe-retro__divider,
+  .fe-retro__divider {
+    grid-column: 1 / -1 !important;
+  }
+  /* Home + projects: desktop 2-col card grid. */
+  .fe-projects-grid {
+    grid-template-columns: 1fr 1fr !important;
+    column-gap: 28px !important;
+  }
+  /* About + case splits: desktop 2-col. */
+  .fe-about {
+    grid-template-columns: 1.1fr 0.9fr !important;
+    gap: 40px !important;
+  }
+  .fe-case-split {
+    grid-template-columns: 1fr 1fr !important;
+    text-align: left !important;
+  }
+  .fe-case-meta-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .fe-feature-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  /* Services: desktop 3-part rows with tags visible. */
+  .fe-service {
+    grid-template-columns: 48px 1fr auto !important;
+  }
+  .fe-service__tags {
+    display: flex !important;
+  }
+  /* Evaluative research: desktop 2-panel card. */
+  .fe-eval-table {
+    grid-template-columns: 1.15fr 0.85fr !important;
+  }
+  /* Highlights: desktop board (left panel + stacked stats). */
+  .fe-highlights-frame,
+  .fe-highlights-frame--readwell,
+  .fe-highlights-frame--theshop,
+  .fe-highlights-frame--mexieats {
+    grid-template-columns: 2244fr 1080fr !important;
+    grid-template-rows: auto !important;
+  }
+  .fe-highlights-side {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+  }
+  .fe-highlights-frame img,
+  .fe-highlights-frame .fe-highlights-side img {
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  /* Hi-fi gallery: desktop left-tall + right-stacked. */
+  .fe-case-gallery:has(.fe-highlights-side) {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+  }
+  .fe-case-gallery:has(.fe-highlights-side) > img,
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side img {
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+  .fe-case-gallery:has(.fe-highlights-side) .fe-highlights-side img {
+    object-fit: cover !important;
+  }
+  /* Galleries + outcomes: desktop multi-column. */
+  .fe-case-gallery {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .fe-case-gallery--trio {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  /* Iterations: desktop side-by-side with scaled mock card. */
+  .fe-iter-row {
+    flex-direction: row !important;
+    align-items: stretch !important;
+  }
+  .fe-iter-copy {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    justify-content: center !important;
+  }
+  .fe-iter-mock {
+    flex: 0 1 340px !important;
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    background: #f1f2f4 !important;
+    border-radius: 20px !important;
+    padding: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .fe-iter-mock img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 520px !important;
+    object-fit: contain !important;
+  }
+}
+
+/* ==========================================================================
+   NARROW DESKTOP (961-1199px): same desktop layout, fluid sizes.
+   At 961px the full desktop constants leave only a 641px content column:
+   160px side margins, a 406px retro label column (+120px gap) squeezing
+   text to ~175px, a fixed 560px iter mock crushing copy to ~57px, and a
+   fixed 448px eval shell clipping ~80px of text (measured). This range
+   scales those constants down; >=1200px keeps the native desktop values.
+   Sits last: equal-specificity ties with the rules above resolve by order.
+   ========================================================================== */
+@media (min-width: 961px) and (max-width: 1199px) {
+  /* Side margins 160px -> 64px (content 833-1071px instead of 641-879px). */
+  main > .fe-rhythm.fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-left: 64px !important;
+    padding-right: 64px !important;
+  }
+  .fe-header__inner {
+    padding-left: 64px !important;
+    padding-right: 64px !important;
+  }
+  main > .fe-contact.fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-left: 96px !important;
+    padding-right: 96px !important;
+  }
+  /* Retro: narrower label column + gap so copy keeps ~350px+. */
+  .fe-retro__content {
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) !important;
+    column-gap: 64px !important;
+  }
+  .fe-retro__block.fe-case-row {
+    column-gap: 64px !important;
+  }
+  /* Iterations: fluid mock card instead of fixed 560x800. */
+  .fe-iter-mock {
+    flex: 0 0 auto !important;
+    width: clamp(360px, 44vw, 560px) !important;
+    height: clamp(560px, 62vw, 800px) !important;
+    padding: 32px !important;
+  }
+  /* Hi-fi board: fluid height instead of fixed 800px. */
+  .fe-case-gallery:has(.fe-highlights-side) {
+    height: clamp(560px, 62vw, 800px) !important;
+  }
+  /* Eval card: natural height instead of fixed 448px (was clipping). */
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ div.fe-eval-shell.fe-rhythm.fe-rhythm {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  main
+    > .fe-case-hero-text.fe-rhythm.fe-rhythm
+    ~ div.fe-eval-shell.fe-rhythm.fe-rhythm
+    > .fe-eval-table {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+}
+
+/* ============================================================
+   HOME hero: 120px left/right content margins (desktop)
+   Section padding set to 120px; hero content horizontal padding
+   zeroed so children align to exactly 120px. Vertical spacing
+   preserved. Placed at end of file to win by source order.
+   ============================================================ */
+@media (min-width: 961px) {
+  main > .fe-hero {
+    padding-left: 120px !important;
+    padding-right: 120px !important;
+  }
+  .fe-hero__content {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* About section — 120px side margins on desktop */
+@media (min-width: 961px) {
+  main > .fe-about-section {
+    padding-left: 120px !important;
+    padding-right: 120px !important;
+  }
+}
+
+/* About contents: no negative pull. It used to drag the inner column up
+   32px, which pulled the heading on top of the "About" chip and left a
+   -16px gap. The chip now owns a 32px gap of its own. */
+main > .fe-about-section .fe-about {
+  margin-top: 0 !important;
+}
+
+/* ==========================================================================
+   MOTION BLOCK — marquee + services merged into one full-bleed block
+   ========================================================================== */
+.fe-motion-block {
+  width: 100%;
+  background: #0e1112;
+  overflow: hidden;
+}
+
+.fe-motion-block .fe-marquee {
+  margin: 0 !important;
+  padding: 26px 0 0 !important;
+  border-top: none !important;
+}
+
+.fe-motion-block .fe-marquee__track {
+  gap: 64px;
+}
+
+.fe-motion-block .fe-services {
+  margin: 0 !important;
+  /* 60px of breathing room between the SERVICES marquee and the
+     "What I do" chip. This is padding, not margin, on purpose: the band
+     below the marquee is dark (#0e1112) and body is white, so a margin
+     would show a white stripe. Padding keeps the whole run dark. */
+  padding-top: 60px !important;
+  border-top: none !important;
+}
+
+.fe-motion-block .fe-services .fe-section {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 120px 32px !important;
+  margin: 0 auto !important;
+}
+
+.fe-motion-block .fe-services__list {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 120px 100px !important;
+  margin: 0 auto !important;
+}
+
+/* Tablet + mobile: tighten gutters inside the full-bleed block */
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-motion-block .fe-services .fe-section,
+  .fe-motion-block .fe-services__list {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .fe-motion-block .fe-services .fe-section,
+  .fe-motion-block .fe-services__list {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ==========================================================================
+   PREMIUM HERO — 3D depth (vibe preserved, copy & button unchanged)
+   ========================================================================== */
+.fe-hero--3d {
+  --fe-hero-perspective: 1200px;
+  --fe-hero-tilt: 6deg;
+}
+
+.fe-hero__3d-wrap {
+  position: relative;
+  perspective: var(--fe-hero-perspective);
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+}
+
+.fe-hero__layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.fe-hero__layer--base {
+  z-index: 0;
+}
+
+.fe-hero__layer--depth {
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(10, 12, 13, 0.10) 35%,
+    rgba(10, 12, 13, 0.32) 100%
+  );
+}
+
+.fe-hero__card-wrap {
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+  /* mouse tilt applied inline via JS */
+  transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fe-hero__card {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.fe-hero__card::before {
+  content: "";
+  position: absolute;
+  inset: -48px -48px -72px -48px;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  );
+  border-radius: 40px;
+  transform: translateZ(-72px);
+  filter: blur(34px);
+  opacity: 0.55;
+}
+
+.fe-gsap .fe-hero--3d .fe-hero__content > * {
+  animation: none !important;
+}
+
+.fe-hero__content > h1 {
+  transform-style: preserve-3d;
+  transform: translateZ(24px);
+}
+
+.fe-hero__content > .fe-hero__lead {
+  transform-style: preserve-3d;
+  transform: translateZ(16px);
+}
+
+.fe-hero__content > .fe-btn {
+  transform-style: preserve-3d;
+  transform: translateZ(40px);
+}
+
+/* ==========================================================================
+   PREMIUM SCROLL REVEALS — GSAP-driven, smoother than IntersectionObserver
+   ========================================================================== */
+.fe-anim-ready .fe-reveal-premium,
+.fe-anim-ready [data-animate-premium] {
+  opacity: 0;
+  will-change: opacity, transform, filter;
+}
+
+.fe-anim-ready .fe-reveal-premium,
+.fe-anim-ready [data-animate-premium="up"] {
+  transform: translateY(34px) scale(0.985);
+}
+
+.fe-anim-ready [data-animate-premium="down"] {
+  transform: translateY(-34px) scale(0.985);
+}
+
+.fe-anim-ready [data-animate-premium="fade"] {
+  transform: none;
+  filter: blur(8px);
+}
+
+.fe-anim-ready [data-animate-premium="scale"] {
+  transform: scale(0.94);
+}
+
+.fe-reveal-premium.is-in,
+[data-animate-premium].is-in {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* ==========================================================================
+   PROJECT CARD — 3D depth on hover (vibe preserved)
+   ========================================================================== */
+.fe-project__media {
+  transform-style: preserve-3d;
+}
+
+.fe-project__media img {
+  transform: translateZ(0);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fe-project:hover .fe-project__media img {
+  transform: scale(1.04) translateZ(28px);
+}
+
+.fe-project__arrow {
+  transform-style: preserve-3d;
+  transform: translateZ(12px);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.fe-project:hover .fe-project__arrow {
+  transform: translate(2px, -2px) translateZ(30px);
+}
+
+/* ==========================================================================
+   SERVICE ITEM — subtle 3D lift
+   ========================================================================== */
+.fe-service {
+  transform-style: preserve-3d;
+}
+
+.fe-service__num {
+  transform: translateZ(8px);
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.fe-service:hover .fe-service__num {
+  transform: translateZ(22px);
+  color: #fff;
+}
+
+/* ==========================================================================
+   ABOUT — media depth
+   ========================================================================== */
+.fe-about__media {
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+}
+
+.fe-about__media img {
+  transform: translateZ(18px);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   MARQUEE — smoother, more premium pace
+   ========================================================================== */
+.fe-marquee__track {
+  animation: fe-marquee 40s linear infinite;
+}
+
+/* Reduced motion: kill tilt & 3D, keep opacity reveals gentle */
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt], .fe-hero__card-wrap {
+    transform: none !important;
+    transition: none !important;
+  }
+  .fe-project:hover .fe-project__media img,
+  .fe-project:hover .fe-project__arrow,
+  .fe-service:hover .fe-service__num,
+  .fe-about__media img {
+    transform: none !important;
   }
 }

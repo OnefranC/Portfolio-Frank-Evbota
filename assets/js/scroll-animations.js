@@ -155,13 +155,85 @@
     var btn = document.querySelector("[data-fe-menu]");
     var nav = document.querySelector("[data-fe-nav]");
     if (!btn || !nav) return;
-    btn.addEventListener("click", function () {
-      nav.classList.toggle("is-open");
+
+    // Drop any legacy inner close button: the burger itself is now the X.
+    var legacyClose = nav.querySelector("[data-fe-close]");
+    if (legacyClose && legacyClose.parentNode === nav) {
+      legacyClose.parentNode.removeChild(legacyClose);
+    }
+
+    var closing = false;
+
+    function openMenu() {
+      closing = false;
+      nav.classList.remove("is-closing");
+      nav.classList.add("is-open");
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-expanded", "true");
+      btn.setAttribute("aria-label", "Close menu");
+    }
+
+    function closeMenu() {
+      if (!nav.classList.contains("is-open") || closing) return;
+      var done = function () {
+        nav.classList.remove("is-open");
+        nav.classList.remove("is-closing");
+        btn.classList.remove("is-active");
+        closing = false;
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open menu");
+      };
+      if (reduceMotion) {
+        done();
+        return;
+      }
+      closing = true;
+      nav.classList.add("is-closing");
+      window.setTimeout(done, 170);
+    }
+
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", "fe-nav");
+    nav.id = nav.id || "fe-nav";
+
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (nav.classList.contains("is-open")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
+
     qsAll("a", nav).forEach(function (link) {
       link.addEventListener("click", function () {
-        nav.classList.remove("is-open");
+        closeMenu();
       });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!nav.classList.contains("is-open")) return;
+      if (!nav.contains(e.target) && !btn.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if ((e.key === "Escape" || e.key === "Esc") && nav.classList.contains("is-open")) {
+        closeMenu();
+        if (btn && btn.focus) {
+          try { btn.focus({ preventScroll: true }); } catch (err) { /* noop */ }
+        }
+      }
+    });
+
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 960 && nav.classList.contains("is-open")) {
+        nav.classList.remove("is-open", "is-closing");
+        btn.classList.remove("is-active");
+        closing = false;
+        btn.setAttribute("aria-expanded", "false");
+      }
     });
   }
 

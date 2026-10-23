@@ -1,12 +1,10 @@
 /**
- * Smooth multi-page transitions.
- * Prefer View Transitions API; fall back to leave-fade + enter animation.
+ * Page transitions disabled — instant navigation.
+ * Kept as a no-op pass-through so internal links navigate immediately
+ * with no View Transition or fallback fade.
  */
 (function () {
   "use strict";
-
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var leaving = false;
 
   function isModifiedClick(e) {
     return e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
@@ -39,26 +37,8 @@
     return true;
   }
 
-  function supportsViewTransitions() {
-    return (
-      !reduceMotion &&
-      typeof document.startViewTransition === "function"
-    );
-  }
-
   function navigate(href) {
     window.location.href = href;
-  }
-
-  function leaveThenNavigate(href) {
-    if (leaving) return;
-    leaving = true;
-    document.documentElement.classList.add("fe-page-leaving");
-
-    var delay = reduceMotion ? 0 : 280;
-    window.setTimeout(function () {
-      navigate(href);
-    }, delay);
   }
 
   function onLinkClick(e) {
@@ -78,42 +58,17 @@
       return;
     }
 
-    if (supportsViewTransitions()) {
-      // Let the browser do cross-document VT; still prevent double-handling
-      // Default navigation proceeds — no preventDefault needed for VT navigation:auto
-      return;
-    }
-
+    // Instant: default navigation, no delay, no leave animation.
+    navigate(a.href);
     e.preventDefault();
-    leaveThenNavigate(a.href);
-  }
-
-  function enter() {
-    document.documentElement.classList.add("fe-page-enter");
-    // Clean up after enter animation so scroll/header transforms stay clean
-    window.setTimeout(function () {
-      document.documentElement.classList.remove("fe-page-enter");
-    }, 700);
   }
 
   function init() {
-    // bfcache restore: don't replay enter
-    var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-    var fromBFCache = nav && nav.type === "back_forward";
-
-    if (!reduceMotion && !fromBFCache) {
-      enter();
-    }
-
     document.addEventListener("click", onLinkClick, true);
 
-    // If user goes back via browser chrome, reset leaving state
-    window.addEventListener("pageshow", function (e) {
-      leaving = false;
+    window.addEventListener("pageshow", function () {
       document.documentElement.classList.remove("fe-page-leaving");
-      if (e.persisted && !reduceMotion) {
-        enter();
-      }
+      document.documentElement.classList.remove("fe-page-enter");
     });
   }
 
