@@ -507,6 +507,7 @@ body {
 .fe-services {
   background: #0e1112;
   color: #fff;
+  height: auto; /* fit content — avoid padding-driven section bloat */
 }
 
 .fe-services .fe-section__label {
@@ -529,19 +530,34 @@ body {
 .fe-services__list {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px 100px;
+  padding: 0 24px 60px; /* reduced bottom padding to fit content */
 }
 
 .fe-service {
   display: grid;
   grid-template-columns: 64px 1fr auto;
   gap: 24px;
-  align-items: center;
+  align-items: start;
   padding: 36px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   text-decoration: none;
   color: #fff;
   transition: opacity 0.2s ease, background-color 0.2s ease, padding-left 0.25s ease;
+}
+
+.fe-service > div:nth-child(2) {
+  grid-column: 2; /* heading + paragraph text block — full-width left box */
+  width: 100%;
+}
+
+.fe-service__tags {
+  grid-column: 3; /* pill tabs — right hand side */
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* reflow / stack as page resizes */
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 0;
 }
 
 .fe-service:last-child {
@@ -575,14 +591,18 @@ body {
   margin: 0;
   color: rgba(255, 255, 255, 0.55);
   font-size: 15px;
-  max-width: 520px;
+  width: 100%; /* full-width text block */
+  max-width: none;
 }
 
 .fe-service__tags {
+  grid-column: 2; /* full width under the text block */
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: flex-end;
+  margin-top: 8px;
+  justify-content: flex-end; /* right-aligned, stacks/reeflows as page resizes */
 }
 
 .fe-service__tags span {
@@ -1049,8 +1069,19 @@ body {
     grid-template-columns: 48px 1fr;
   }
 
+  .fe-service > div:nth-child(2) {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
   .fe-service__tags {
-    display: none;
+    grid-column: 1 / -1;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 0;
   }
 
   .fe-nav {
@@ -6778,8 +6809,18 @@ main > header.fe-case-hero.fe-rhythm + .fe-rhythm {
   .fe-service {
     grid-template-columns: 48px 1fr auto !important;
   }
+  .fe-service > div:nth-child(2) {
+    grid-column: 2 !important;
+    width: 100% !important;
+  }
   .fe-service__tags {
     display: flex !important;
+    grid-column: 3 !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: flex-end !important;
+    margin-top: 0 !important;
   }
   /* Evaluative research: desktop 2-panel card. */
   .fe-eval-table {
@@ -6934,11 +6975,19 @@ main > header.fe-case-hero.fe-rhythm + .fe-rhythm {
   }
 }
 
-/* About section — 120px side margins on desktop */
+/* About section — 120px side margins on desktop, 120px bottom margin for
+   services-band separation on all widths. */
 @media (min-width: 961px) {
   main > .fe-about-section {
     padding-left: 120px !important;
     padding-right: 120px !important;
+    padding-bottom: 120px !important;
+  }
+}
+
+@media (max-width: 960px) {
+  main > .fe-about-section {
+    padding-bottom: 120px !important;
   }
 }
 

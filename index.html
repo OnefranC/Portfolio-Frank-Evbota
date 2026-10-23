@@ -338,8 +338,9 @@
               (0.12 + fog * 0.85).toFixed(3) +
               ')';
             for (var i = 0; i < cols; i++) {
-              // Bias the field right so waves concentrate on the right side.
-              var x = -hw + (i / (cols - 1)) * hw * 2 + hw * 0.35;
+              // Bias the field right so waves concentrate ~80% on the right side,
+              // keeping the left side (hero text / CTA) clear and readable.
+              var x = -hw + (i / (cols - 1)) * hw * 2 + hw * 0.8;
               var y = height(x, z, t);
               var sx = W / 2 + (x / z) * f;
               if (sx < -4 || sx > W + 4) {
