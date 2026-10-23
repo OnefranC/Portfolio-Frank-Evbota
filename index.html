@@ -32,39 +32,17 @@
     </header>
 
     <main>
-      <section class="fe-hero fe-rhythm fe-hero--3d">
-        <div class="fe-hero__3d-wrap">
-          <div class="fe-hero__bg" data-parallax="0.12">
-            <svg class="fe-wave-mesh" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="feWaveGradSlate" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#8f97a8"/>
-                  <stop offset="100%" stop-color="#6b757a"/>
-                </linearGradient>
-                <linearGradient id="feWaveGradOrange" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ff8a4c"/>
-                  <stop offset="100%" stop-color="#c95a1e"/>
-                </linearGradient>
-              </defs>
-              <rect width="100%" height="100%" fill="#07080c"/>
-              <path class="fe-wave fe-wave-1" data-base="640" data-amp="60" data-freq="0.0013" data-speed="1" fill="url(#feWaveGradSlate)" opacity="0.6"/>
-              <path class="fe-wave fe-wave-2" data-base="720" data-amp="48" data-freq="0.0010" data-speed="0.75" fill="url(#feWaveGradOrange)" opacity="0.55"/>
-              <path class="fe-wave fe-wave-3" data-base="560" data-amp="42" data-freq="0.0016" data-speed="1.15" fill="#8f97a8" opacity="0.35"/>
-            </svg>
-          </div>
-          <div class="fe-hero__card-wrap" data-tilt>
-            <div class="fe-hero__card">
-              <div class="fe-hero__content">
-                <h1>Hi, I'm Frank.</h1>
-                <p class="fe-hero__lead">
-                  As a Product Designer, I craft polished, meaningful digital
-                  experiences that merge creative thinking with practical
-                  usability.
-                </p>
-                <a class="fe-btn" href="projects.html">View My work</a>
-              </div>
-            </div>
-          </div>
+      <section class="fe-hero fe-rhythm">
+        <div class="fe-hero__bg">
+          <canvas class="fe-wave-canvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="fe-hero__content">
+          <h1>Hi, I'm Frank.</h1>
+          <p class="fe-hero__lead">
+            As a Product Designer, I craft polished, meaningful digital
+            experiences that merge creative thinking with practical usability.
+          </p>
+          <a class="fe-btn" href="projects.html">View My work</a>
         </div>
       </section>
 
@@ -249,43 +227,236 @@
     <script src="assets/js/gsap/gsap-scroll-trigger.js"></script>
     <script src="assets/js/hero-premium.js"></script>
     <script>
-      /* Animated SVG wave mesh for the hero background.
-         Smooth sine-wave motion via requestAnimationFrame.
+      /* Hero wave mesh — canvas dot field rolling like a slow sea.
+         Port of the React WaveMesh visual, vanilla JS (no build step).
+         Colors: base #07080c, dots #8f97a8, accent #ff8a4c.
+         Pointer lifts a soft hill; click throws an outward ring.
          Honors prefers-reduced-motion. */
       (function () {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           return;
         }
-        var waves = document.querySelectorAll('.fe-wave');
-        if (!waves.length) {
+        var host = document.querySelector('.fe-hero__bg');
+        if (!host) {
           return;
         }
-        var time = 0;
-        function loop() {
-          time += 0.016;
-          waves.forEach(function (wave, i) {
-            var svg = wave.closest('svg') || wave.parentElement;
-            var width = svg.clientWidth || 1440;
-            var height = svg.clientHeight || 900;
-            var base = parseFloat(wave.getAttribute('data-base') || 640, 10);
-            var amp = parseFloat(wave.getAttribute('data-amp') || 50, 10);
-            var freq = parseFloat(wave.getAttribute('data-freq') || 0.0013, 10);
-            var speed = parseFloat(wave.getAttribute('data-speed') || 1, 10);
-            var phase = i * 0.8;
-            var points = 48;
-            var d = 'M0,' + base;
-            var x, y, px, py;
-            for (x = 0; x <= points; x += 1) {
-              px = (x / points) * width;
-              py = base + Math.sin(px * freq + time * speed + phase) * amp;
-              d += ' L' + px + ',' + py;
-            }
-            d += ' L' + width + ',' + height + ' L0,' + height + ' Z';
-            wave.setAttribute('d', d);
-          });
-          requestAnimationFrame(loop);
+        var canvas = document.createElement('canvas');
+        canvas.setAttribute('aria-hidden', 'true');
+        canvas.style.cssText =
+          'position:absolute;inset:0;width:100%;height:100%;display:block';
+        host.prepend(canvas);
+        var ctx = canvas.getContext('2d');
+        if (!ctx) {
+          return;
         }
-        requestAnimationFrame(loop);
+
+        var CAM = 0.62;
+        var NEAR = 0.35,
+          FAR = 3.4;
+        var DOT_RGB = '143,151,168'; // #8f97a8
+        var ACCENT_RGB = '255,138,76'; // #ff8a4c
+
+        var W = 0,
+          H = 0,
+          cols = 0,
+          rows = 0,
+          f = 0,
+          hz = 0;
+        var raf = 0,
+          visible = true,
+          last = 0;
+        var t0 = performance.now();
+        var ptr = { x: 0, z: 1.4, s: 0, tx: 0, tz: 1.4, ts: 0 };
+        var rings = [];
+
+        function resize() {
+          var w = host.clientWidth,
+            h = host.clientHeight;
+          if (w === W && h === H) {
+            return;
+          }
+          W = w;
+          H = h;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(W * dpr);
+          canvas.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          f = Math.max(W, H * 1.2) * 0.55;
+          hz = H * 0.3;
+          cols = Math.round(Math.min(150, Math.max(56, W / 9)));
+          rows = Math.round(Math.min(90, Math.max(48, H / 9.5)));
+        }
+
+        function half() {
+          return (W / 2 / f) * FAR * 1.05;
+        }
+
+        function height(x, z, t) {
+          var y =
+            0.085 * Math.sin(x * 2.2 + t * 0.7) +
+            0.07 * Math.sin(z * 2.9 - t * 0.9 + x * 0.8) +
+            0.03 * Math.sin((x + z) * 6.1 + t * 1.6);
+          if (ptr.s > 0.01) {
+            var d2 = (x - ptr.x) * (x - ptr.x) + (z - ptr.z) * (z - ptr.z);
+            y += 0.24 * ptr.s * Math.exp(-d2 / 0.07);
+          }
+          for (var r = 0; r < rings.length; r++) {
+            var ring = rings[r];
+            var age = t - ring.t;
+            var d = Math.hypot(x - ring.x, z - ring.z);
+            var front = age * 1.15;
+            y +=
+              0.2 *
+              Math.exp(-((d - front) * (d - front)) / 0.014) *
+              Math.exp(-age * 0.75);
+          }
+          return y;
+        }
+
+        function frame(t) {
+          ctx.clearRect(0, 0, W, H);
+          ptr.x += (ptr.tx - ptr.x) * 0.1;
+          ptr.z += (ptr.tz - ptr.z) * 0.1;
+          ptr.s += (ptr.ts - ptr.s) * 0.06;
+          while (rings.length && t - rings[0].t > 5) {
+            rings.shift();
+          }
+          var hw = half();
+          var hot = [];
+          for (var j = 0; j < rows; j++) {
+            var z = FAR * Math.pow(NEAR / FAR, j / (rows - 1));
+            var fog = Math.pow(1 - (z - NEAR) / (FAR - NEAR), 1.25);
+            var size = Math.max(0.8, Math.min(3.2, 2.3 / z));
+            ctx.fillStyle =
+              'rgba(' +
+              DOT_RGB +
+              ',' +
+              (0.12 + fog * 0.85).toFixed(3) +
+              ')';
+            for (var i = 0; i < cols; i++) {
+              var x = -hw + (i / (cols - 1)) * hw * 2;
+              var y = height(x, z, t);
+              var sx = W / 2 + (x / z) * f;
+              if (sx < -4 || sx > W + 4) {
+                continue;
+              }
+              var sy = hz + ((CAM - y) / z) * f;
+              if (y > 0.12) {
+                hot.push(sx, sy, size, fog);
+                continue;
+              }
+              ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+            }
+          }
+          for (var k = 0; k < hot.length; k += 4) {
+            var sx = hot[k];
+            var sy = hot[k + 1];
+            var size = hot[k + 2];
+            var fog = hot[k + 3];
+            ctx.fillStyle =
+              'rgba(' +
+              ACCENT_RGB +
+              ',' +
+              (0.2 + fog * 0.8).toFixed(3) +
+              ')';
+            var s = size * 1.15;
+            ctx.fillRect(sx - s / 2, sy - s / 2, s, s);
+          }
+        }
+
+        var now = function () {
+          return (performance.now() - t0) / 1000;
+        };
+        var coarse =
+          !window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        function loop(ms) {
+          if (!visible || document.hidden) {
+            raf = 0;
+            return;
+          }
+          raf = requestAnimationFrame(loop);
+          if (coarse && ms - last < 30) {
+            return;
+          }
+          last = ms;
+          resize();
+          frame(now());
+        }
+
+        function wake() {
+          if (raf || !visible || document.hidden) {
+            return;
+          }
+          raf = requestAnimationFrame(loop);
+        }
+
+        function ground(e) {
+          var r = host.getBoundingClientRect();
+          var sx = e.clientX - r.left;
+          var sy = e.clientY - r.top;
+          if (
+            sx < 0 ||
+            sy < 0 ||
+            sx > r.width ||
+            sy > r.height ||
+            sy <= hz + 4
+          ) {
+            return null;
+          }
+          var z = Math.min(FAR, Math.max(NEAR, (CAM * f) / (sy - hz)));
+          return { x: ((sx - W / 2) * z) / f, z: z };
+        }
+
+        function onMove(e) {
+          var g = ground(e);
+          if (g) {
+            ptr.tx = g.x;
+            ptr.tz = g.z;
+            if (ptr.s < 0.05) {
+              ptr.x = g.x;
+              ptr.z = g.z;
+            }
+          }
+          ptr.ts = g ? 1 : 0;
+        }
+
+        function onDown(e) {
+          var g = ground(e);
+          if (g) {
+            rings.push({ x: g.x, z: g.z, t: now() });
+          }
+        }
+
+        resize();
+        frame(3);
+        var io = new IntersectionObserver(function (entries) {
+          visible = entries[0].isIntersecting;
+          wake();
+        });
+        io.observe(host);
+        var ro = new ResizeObserver(function () {
+          resize();
+          frame(3);
+        });
+        ro.observe(host);
+        document.addEventListener('visibilitychange', wake);
+        if (!coarse) {
+          window.addEventListener('pointermove', onMove, { passive: true });
+        }
+        window.addEventListener('pointerdown', onDown, { passive: true });
+        return function () {
+          cancelAnimationFrame(raf);
+          raf = 0;
+          io.disconnect();
+          ro.disconnect();
+          document.removeEventListener('visibilitychange', wake);
+          if (!coarse) {
+            window.removeEventListener('pointermove', onMove);
+          }
+          window.removeEventListener('pointerdown', onDown);
+          canvas.remove();
+        };
       })();
     </script>
   </body>
