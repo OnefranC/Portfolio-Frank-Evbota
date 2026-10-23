@@ -1061,7 +1061,7 @@ body {
     display: block;
   }
 
-  /* Tablet + mobile open-state: compact card overlay, top-right corner */
+  /* Tablet + mobile open-state: compact card overlay, top-right corner (light theme default) */
   .fe-nav.is-open {
     display: flex;
     position: absolute;
@@ -1074,16 +1074,37 @@ body {
     align-items: stretch;
     justify-content: center;
     gap: 4px;
-    background: #07080c;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #fff;
+    border: 1px solid var(--fe-line);
     border-radius: 14px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 16px 40px rgba(18, 21, 21, 0.14);
     padding: 12px;
     z-index: 200;
     transform-origin: top right;
     opacity: 1;
     transform: none;
     animation: fe-menu-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Dark theme override for home page header overlay */
+  .fe-header--overlay .fe-nav.is-open {
+    background: #07080c;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  }
+  .fe-header--overlay .fe-nav.is-open a,
+  .fe-header--overlay .fe-nav.is-open a:hover,
+  .fe-header--overlay .fe-nav.is-open a:active {
+    color: #fff;
+  }
+  .fe-header--overlay .fe-nav.is-open a:hover,
+  .fe-header--overlay .fe-nav.is-open a:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .fe-header--overlay .fe-nav.is-open .fe-nav__cta {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    color: #fff !important;
   }
 
   .fe-nav.is-open.is-closing {
@@ -1095,7 +1116,7 @@ body {
     border-radius: 8px;
     font-size: 14px;
     line-height: 1.3;
-    color: #fff;
+    color: var(--fe-ink);
     transition: background-color 0.15s ease, color 0.15s ease;
   }
 
@@ -1105,17 +1126,17 @@ body {
 
   .fe-nav.is-open a:hover,
   .fe-nav.is-open a:active {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background: var(--fe-soft);
+    color: var(--fe-ink);
   }
 
   .fe-nav.is-open .fe-nav__cta {
     justify-content: center;
     padding: 9px 10px;
     margin-top: 4px;
-    background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    background: var(--fe-ink) !important;
     color: #fff !important;
+    border: none !important;
   }
 }
 
