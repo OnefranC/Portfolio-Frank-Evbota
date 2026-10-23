@@ -780,6 +780,11 @@ body {
   font-size: 14px;
   color: rgba(255,255,255,0.55);
 }
+
+/* Contact page footer: left-align nav + copyright */
+.fe-footer--contact .fe-footer__inner {
+  justify-content: flex-start;
+}
 .fe-footer nav { display: flex; gap: 20px; }
 .fe-footer a { color: rgba(255,255,255,0.55); text-decoration: none; font-weight: 500; transition: color .2s; }
 .fe-footer a:hover { color: #fff; }
