@@ -16,6 +16,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-optical-sizing: auto;
 }
 
 body {
@@ -75,7 +76,7 @@ body {
   font-family: var(--fe-logo);
   font-size: 32px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   color: var(--fe-ink);
   text-decoration: none;
   line-height: 1;
@@ -308,6 +309,7 @@ body {
   color: #fff;
   margin: 0 0 10px;
   letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .fe-hero__lead {
@@ -409,6 +411,7 @@ body {
   line-height: 1.15;
   margin: 0 0 20px;
   color: var(--fe-ink);
+  text-wrap: balance;
 }
 
 .fe-section__lead {
