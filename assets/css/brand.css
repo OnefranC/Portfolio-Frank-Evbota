@@ -203,6 +203,29 @@ body {
   background: #fff;
 }
 
+/* Skip link — touch-friendly target, visually hidden until focused */
+.fe-skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 16px;
+  background: #07080c;
+  color: #fff;
+  text-decoration: underline;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+  z-index: 9999;
+  border-radius: 0 0 12px 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+.fe-skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 /* Keep the burger visible on mobile over the dark hero */
 .fe-header--overlay .fe-burger span {
   background: #fff;
@@ -1058,6 +1081,8 @@ body {
     padding: 12px;
     z-index: 200;
     transform-origin: top right;
+    opacity: 1;
+    transform: none;
     animation: fe-menu-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
@@ -1092,7 +1117,7 @@ body {
 
 @keyframes fe-menu-pop {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(-8px) scale(0.94);
   }
   to {
@@ -4531,7 +4556,7 @@ main .fe-cta .fe-btn:hover {
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34) !important;
 }
 
-/* Hero "View My work": flip — white fill/dark text, hover dark fill/white text + motion */
+/* Hero "View My work": flip — white fill/dark text, hover dark fill/white text + motion + white outline */
 .fe-hero__content .fe-btn {
   background: #ffffff !important;
   color: var(--fe-ink) !important;
@@ -4541,6 +4566,8 @@ main .fe-cta .fe-btn:hover {
   color: #ffffff !important;
   transform: translateY(-3px) !important;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34) !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
 }
 
 /* ===== Tablet gutters: 32px on all pages ===== */
