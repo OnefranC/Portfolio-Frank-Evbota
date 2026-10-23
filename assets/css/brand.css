@@ -219,12 +219,21 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 12, 13, 0.15) 0%,
-    rgba(10, 12, 13, 0.35) 45%,
-    rgba(10, 12, 13, 0.72) 100%
-  );
+  background: #07080c;
+  opacity: 0.55;
+}
+
+/* —— Hero animated wave mesh (replaces hero-bg image) —— */
+.fe-wave-mesh {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+.fe-wave-mesh rect {
+  overflow: visible;
 }
 
 .fe-hero__content {

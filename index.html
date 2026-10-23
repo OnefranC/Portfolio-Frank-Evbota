@@ -35,16 +35,22 @@
       <section class="fe-hero fe-rhythm fe-hero--3d">
         <div class="fe-hero__3d-wrap">
           <div class="fe-hero__bg" data-parallax="0.12">
-            <div class="fe-hero__layer fe-hero__layer--base">
-              <img
-                src="assets/images/hero-bg.png"
-                alt="Frank Evbota portfolio hero"
-              />
-            </div>
-            <div
-              class="fe-hero__layer fe-hero__layer--depth"
-              aria-hidden="true"
-            ></div>
+            <svg class="fe-wave-mesh" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="feWaveGradSlate" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#8f97a8"/>
+                  <stop offset="100%" stop-color="#6b757a"/>
+                </linearGradient>
+                <linearGradient id="feWaveGradOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff8a4c"/>
+                  <stop offset="100%" stop-color="#c95a1e"/>
+                </linearGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="#07080c"/>
+              <path class="fe-wave fe-wave-1" data-base="640" data-amp="60" data-freq="0.0013" data-speed="1" fill="url(#feWaveGradSlate)" opacity="0.6"/>
+              <path class="fe-wave fe-wave-2" data-base="720" data-amp="48" data-freq="0.0010" data-speed="0.75" fill="url(#feWaveGradOrange)" opacity="0.55"/>
+              <path class="fe-wave fe-wave-3" data-base="560" data-amp="42" data-freq="0.0016" data-speed="1.15" fill="#8f97a8" opacity="0.35"/>
+            </svg>
           </div>
           <div class="fe-hero__card-wrap" data-tilt>
             <div class="fe-hero__card">
@@ -242,5 +248,45 @@
     <script src="assets/js/gsap/gsap.js"></script>
     <script src="assets/js/gsap/gsap-scroll-trigger.js"></script>
     <script src="assets/js/hero-premium.js"></script>
+    <script>
+      /* Animated SVG wave mesh for the hero background.
+         Smooth sine-wave motion via requestAnimationFrame.
+         Honors prefers-reduced-motion. */
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          return;
+        }
+        var waves = document.querySelectorAll('.fe-wave');
+        if (!waves.length) {
+          return;
+        }
+        var time = 0;
+        function loop() {
+          time += 0.016;
+          waves.forEach(function (wave, i) {
+            var svg = wave.closest('svg') || wave.parentElement;
+            var width = svg.clientWidth || 1440;
+            var height = svg.clientHeight || 900;
+            var base = parseFloat(wave.getAttribute('data-base') || 640, 10);
+            var amp = parseFloat(wave.getAttribute('data-amp') || 50, 10);
+            var freq = parseFloat(wave.getAttribute('data-freq') || 0.0013, 10);
+            var speed = parseFloat(wave.getAttribute('data-speed') || 1, 10);
+            var phase = i * 0.8;
+            var points = 48;
+            var d = 'M0,' + base;
+            var x, y, px, py;
+            for (x = 0; x <= points; x += 1) {
+              px = (x / points) * width;
+              py = base + Math.sin(px * freq + time * speed + phase) * amp;
+              d += ' L' + px + ',' + py;
+            }
+            d += ' L' + width + ',' + height + ' L0,' + height + ' Z';
+            wave.setAttribute('d', d);
+          });
+          requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+      })();
+    </script>
   </body>
 </html>
