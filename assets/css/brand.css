@@ -141,6 +141,67 @@ body {
   color: #fff !important;
 }
 
+/* —— Header blended into hero (homepage only) —— */
+.fe-header--overlay {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(7, 8, 12, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: none;
+}
+.fe-header--overlay .fe-logo {
+  color: #fff;
+}
+.fe-header--overlay .fe-nav a {
+  color: #fff;
+}
+.fe-header--overlay .fe-nav a:hover,
+.fe-header--overlay .fe-nav a.is-active {
+  color: #fff;
+}
+.fe-header--overlay .fe-nav__cta {
+  background: #fff;
+  color: #07080c !important;
+}
+.fe-header--overlay .fe-nav__cta:hover {
+  opacity: 0.92;
+  color: #07080c !important;
+}
+
+/* Scrolled state: solid header so it stays readable over content below */
+.fe-header--overlay.is-scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom-color: var(--fe-line);
+  box-shadow: 0 8px 28px rgba(18, 21, 21, 0.06);
+}
+.fe-header--overlay.is-scrolled .fe-logo,
+.fe-header--overlay.is-scrolled .fe-nav a {
+  color: var(--fe-ink);
+}
+.fe-header--overlay.is-scrolled .fe-nav a:hover,
+.fe-header--overlay.is-scrolled .fe-nav a.is-active {
+  color: var(--fe-ink);
+}
+.fe-header--overlay.is-scrolled .fe-nav__cta {
+  background: var(--fe-ink);
+  color: #fff !important;
+}
+.fe-header--overlay.is-scrolled .fe-burger span {
+  background: var(--fe-ink);
+}
+
+/* Keep the burger visible on mobile over the dark hero */
+.fe-header--overlay .fe-burger span {
+  background: #fff;
+}
+
+/* Hero content vertically centered but left-aligned */
+
 .fe-burger {
   display: none;
   border: 0;
@@ -201,8 +262,6 @@ body {
   background: #07080c;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .fe-hero__bg {
@@ -229,8 +288,9 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
+  text-align: left;
 }
 
 .fe-hero h1 {
