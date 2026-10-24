@@ -109,11 +109,31 @@
         header.style.transform = "";
       }
 
+      // Switch nav between dark/light theme based on which section is in view
+      updateNavTheme();
+
       lastY = y;
       ticking = false;
     }
 
-    header.style.transition = "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease";
+    // Determines whether the sticky nav should be light or dark by checking
+    // which data-fe-nav-theme section's center sits in the viewport's middle band.
+    // Sections without the attribute (hero, services) default to dark theme.
+    function updateNavTheme() {
+      var vh = window.innerHeight;
+      var activeTheme = "dark";
+      document.querySelectorAll("[data-fe-nav-theme]").forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        var center = rect.top + rect.height / 2;
+        // Middle band of the viewport: 30% to 70% from the top
+        if (center > vh * 0.3 && center < vh * 0.7) {
+          activeTheme = el.getAttribute("data-fe-nav-theme");
+        }
+      });
+      header.classList.toggle("is-light", activeTheme === "light");
+    }
+
+    header.style.transition = "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease";
 
     window.addEventListener(
       "scroll",

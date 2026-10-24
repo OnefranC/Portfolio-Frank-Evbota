@@ -203,6 +203,52 @@ body {
   background: #fff;
 }
 
+/* Smooth dark↔light theme switching for header elements */
+.fe-header--overlay .fe-logo,
+.fe-header--overlay .fe-nav a {
+  transition: color 0.4s ease;
+}
+.fe-header--overlay .fe-nav__cta {
+  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+.fe-header--overlay .fe-burger span {
+  transition: background-color 0.4s ease;
+}
+
+/* —— Header light theme (active when scrolling over light sections) —— */
+.fe-header--overlay.is-light {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(18, 21, 21, 0.12);
+  box-shadow: none;
+}
+.fe-header--overlay.is-light.is-scrolled {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(18, 21, 21, 0.16);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+.fe-header--overlay.is-light .fe-logo {
+  color: var(--fe-ink);
+}
+.fe-header--overlay.is-light .fe-nav a {
+  color: var(--fe-muted);
+}
+.fe-header--overlay.is-light .fe-nav a:hover,
+.fe-header--overlay.is-light .fe-nav a.is-active {
+  color: var(--fe-ink);
+}
+.fe-header--overlay.is-light .fe-nav__cta {
+  background: var(--fe-ink) !important;
+  border: transparent !important;
+  color: #fff !important;
+}
+.fe-header--overlay.is-light .fe-nav__cta:hover {
+  opacity: 0.88;
+  color: #fff !important;
+}
+.fe-header--overlay.is-light .fe-burger span {
+  background: var(--fe-ink);
+}
+
 /* Skip link — touch-friendly target, visually hidden until focused */
 .fe-skip-link {
   position: absolute;
@@ -377,7 +423,15 @@ body {
 .fe-btn--dark:hover {
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Contact form submit button: full width, 52px height, centered text */
+.fe-form .fe-btn--dark {
+  width: 100%;
+  height: 52px;
+  padding: 0 32px;
+  justify-content: center;
 }
 
 .fe-btn--ghost {
@@ -387,11 +441,11 @@ body {
 }
 
 .fe-btn--ghost:hover {
-  background: var(--fe-ink);
+  background: #fff;
   border-color: var(--fe-ink);
-  color: #fff;
+  color: var(--fe-ink);
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .fe-btn:focus-visible,
@@ -781,9 +835,13 @@ body {
   color: rgba(255,255,255,0.55);
 }
 
-/* Contact page footer: left-align nav + copyright */
+/* Contact page footer: left-align nav, center-align copyright copy */
 .fe-footer--contact .fe-footer__inner {
   justify-content: flex-start;
+}
+.fe-footer--contact .fe-footer__legal {
+  justify-content: center;
+  width: auto;
 }
 .fe-footer nav { display: flex; gap: 20px; }
 .fe-footer a { color: rgba(255,255,255,0.55); text-decoration: none; font-weight: 500; transition: color .2s; }
@@ -975,6 +1033,13 @@ body {
   padding: 72px 24px 100px;
 }
 
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-contact {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
 .fe-contact h1 {
   font-family: var(--fe-display);
   font-size: clamp(40px, 6vw, 56px);
@@ -1030,10 +1095,30 @@ body {
 }
 
 .fe-contact-links {
-  margin-top: 40px;
+  margin-top: 16px; /* mobile */
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
+}
+
+.fe-contact-links .fe-btn {
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+  height: 52px;
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-contact-links {
+    margin-top: 24px; /* tablet */
+    gap: 24px;
+  }
+}
+
+@media (min-width: 961px) {
+  .fe-contact-links {
+    margin-top: 32px; /* desktop */
+  }
 }
 
 /* —— Page hero (inner) —— */
@@ -7257,5 +7342,88 @@ main > .fe-about-section .fe-about {
   .fe-service:hover .fe-service__num,
   .fe-about__media img {
     transform: none !important;
+  }
+}
+
+/* ==========================================================================
+   Contact page: single frame with globe (40%) + form (60%) on desktop.
+   Tablet/Mobile: globe on top, form below with 40px spacing.
+   Frame uses 160px page margins (overrides contact's 344px).
+   ========================================================================== */
+
+.fe-contact__frame {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Tablet/Mobile: form on top, globe below */
+@media (max-width: 960px) {
+  .fe-contact__frame {
+    flex-direction: column-reverse;
+  }
+}
+
+/* Tablet: contact form 120px side padding */
+@media (min-width: 601px) and (max-width: 960px) {
+  .fe-contact__content {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+}
+
+/* Override contact section's 344px padding to use 160px page margins */
+@media (min-width: 961px) {
+  main > .fe-contact.fe-rhythm.fe-rhythm.fe-rhythm {
+    padding-left: 160px !important;
+    padding-right: 160px !important;
+  }
+}
+
+.fe-globe {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: visible;
+}
+
+.fe-globe__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: var(--fe-radius);
+}
+
+.fe-contact__content {
+  width: 100%;
+}
+
+/* Desktop: side-by-side layout */
+@media (min-width: 961px) {
+  .fe-contact__frame {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 32px;
+  }
+  .fe-globe {
+    position: relative;
+    flex: 0 0 50%;
+    width: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .fe-contact__content {
+    flex: 1 1 50%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: clamp(32px, 5vw, 64px);
   }
 }
