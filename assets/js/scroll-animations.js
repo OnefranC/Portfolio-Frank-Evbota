@@ -91,6 +91,11 @@
     var header = document.querySelector(".fe-header");
     if (!header) return;
 
+    // Always reset inline transform on initialization to prevent
+    // leftover styles from previous page scroll state
+    header.style.transform = "";
+    header.classList.remove("is-scrolled");
+
     var lastY = window.scrollY;
     var ticking = false;
 
@@ -109,42 +114,15 @@
         header.style.transform = "";
       }
 
-      // Switch nav between dark/light theme based on which section is in view
-      updateNavTheme();
-
       lastY = y;
       ticking = false;
     }
 
-    // Determines whether the sticky nav should be light or dark by checking
-    // which data-fe-nav-theme section's center sits in the viewport's middle band.
-    // Sections without the attribute (hero, services) default to dark theme.
-    function updateNavTheme() {
-      var vh = window.innerHeight;
-      var activeTheme = "dark";
-      document.querySelectorAll("[data-fe-nav-theme]").forEach(function (el) {
-        var rect = el.getBoundingClientRect();
-        var center = rect.top + rect.height / 2;
-        // Middle band of the viewport: 30% to 70% from the top
-        if (center > vh * 0.3 && center < vh * 0.7) {
-          activeTheme = el.getAttribute("data-fe-nav-theme");
-        }
-      });
-      header.classList.toggle("is-light", activeTheme === "light");
-    }
+    // Determines header scrolled state (hide/show on scroll)
+    // Header is always dark theme — no light/dark switching
 
-    header.style.transition = "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease";
-
-    window.addEventListener(
-      "scroll",
-      function () {
-        if (!ticking) {
-          ticking = true;
-          requestAnimationFrame(update);
-        }
-      },
-      { passive: true }
-    );
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
     update();
   }
 
