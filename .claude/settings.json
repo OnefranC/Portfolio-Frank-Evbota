@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "nateherk-design@nateherk": true,
+    "vercel@claude-plugins-official": true
+  }
+}

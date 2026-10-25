@@ -91,6 +91,11 @@
     var header = document.querySelector(".fe-header");
     if (!header) return;
 
+    // Always reset inline transform on initialization to prevent
+    // leftover styles from previous page scroll state
+    header.style.transform = "";
+    header.classList.remove("is-scrolled");
+
     var lastY = window.scrollY;
     var ticking = false;
 
