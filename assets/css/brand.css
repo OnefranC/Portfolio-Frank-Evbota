@@ -170,91 +170,47 @@ body {
   color: #fff;
 }
 .fe-header--overlay .fe-nav__cta {
-  background: transparent !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.9) !important;
-  color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1.5px solid var(--fe-ink, #ffffff);
+  color: #ffffff;
+  padding: 8px 16px;
+  font-size: 14px;
 }
 .fe-header--overlay .fe-nav__cta:hover {
-  background: rgba(255, 255, 255, 0.95) !important;
-  color: #07080c !important;
-  border-color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.9);
+  color: var(--fe-ink, #ffffff);
+  border-color: var(--fe-ink, #ffffff);
 }
 
-/* —— Header theme states: dark↔light × scrolled↔not-scrolled —— */
+/* —— Header: consistently dark theme —— */
 
-/* Scrolled: solid dark header (over light page content below) */
-.fe-header--overlay.is-scrolled {
+/* Dark header (visible when at top of page or scrolled) */
+.fe-header--overlay {
   background: #07080c;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
-.fe-header--overlay.is-scrolled .fe-logo,
-.fe-header--overlay.is-scrolled .fe-nav a,
-.fe-header--overlay.is-scrolled .fe-nav a:hover,
-.fe-header--overlay.is-scrolled .fe-nav a.is-active {
+.fe-header--overlay .fe-logo,
+.fe-header--overlay .fe-nav a,
+.fe-header--overlay .fe-nav a:hover,
+.fe-header--overlay .fe-nav a.is-active {
   color: #fff;
 }
-.fe-header--overlay.is-scrolled .fe-nav__cta {
-  background: transparent !important;
-  border: 1px solid rgba(37, 55, 70, 0.28) !important;
-  color: var(--fe-ink) !important;
+.fe-header--overlay .fe-nav__cta {
+  background: transparent;
+  border: 1px solid rgba(37, 55, 70, 0.28);
+  color: var(--fe-ink);
 }
-.fe-header--overlay.is-scrolled .fe-nav__cta:hover {
-  background: rgba(37, 55, 70, 0.06) !important;
-  color: var(--fe-ink) !important;
-  border-color: rgba(37, 55, 70, 0.45) !important;
+.fe-header--overlay .fe-nav__cta:hover {
+  background: rgba(37, 55, 70, 0.06);
+  color: var(--fe-ink);
+  border-color: rgba(37, 55, 70, 0.45);
 }
-.fe-header--overlay.is-scrolled .fe-burger span {
+.fe-header--overlay .fe-burger span {
   background: #fff;
 }
 
-/* Light theme, not scrolled (over light sections, near top of page) */
-.fe-header--overlay.is-light {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid rgba(18, 21, 21, 0.12);
-  box-shadow: none;
-}
-.fe-header--overlay.is-light .fe-logo {
-  color: var(--fe-ink);
-}
-.fe-header--overlay.is-light .fe-nav a {
-  color: var(--fe-muted);
-}
-.fe-header--overlay.is-light .fe-nav a:hover,
-.fe-header--overlay.is-light .fe-nav a.is-active {
-  color: var(--fe-ink);
-}
-.fe-header--overlay.is-light .fe-nav__cta {
-  background: var(--fe-ink) !important;
-  border: transparent !important;
-  color: #fff !important;
-}
-.fe-header--overlay.is-light .fe-nav__cta:hover {
-  opacity: 0.88;
-  color: #fff !important;
-}
-.fe-header--overlay.is-light .fe-burger span {
-  background: var(--fe-ink);
-}
-
-/* Light theme, scrolled */
-.fe-header--overlay.is-light.is-scrolled {
-  background: #ffffff;
-  border-bottom: 1px solid rgba(18, 21, 21, 0.16);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-.fe-header--overlay.is-light.is-scrolled .fe-nav__cta {
-  background: var(--fe-ink) !important;
-  border: 1px solid rgba(18, 21, 21, 0.2) !important;
-  color: #fff !important;
-}
-.fe-header--overlay.is-light.is-scrolled .fe-nav__cta:hover {
-  opacity: 0.88;
-  color: #fff !important;
-  border-color: rgba(18, 21, 21, 0.35) !important;
-}
-
-/* Smooth dark↔light transitions for all header chrome */
+/* Smooth transitions for all header chrome */
 .fe-header--overlay .fe-logo,
 .fe-header--overlay .fe-nav a {
   transition: color 0.4s ease;
@@ -4661,16 +4617,16 @@ main .fe-cta .fe-btn:hover {
   box-shadow: 0 1px 4px rgba(18, 21, 21, 0.15) !important;
 }
 .fe-nav__cta--secondary {
-  background: transparent !important;
-  color: var(--fe-ink) !important;
-  border: 1px solid rgba(37, 55, 70, 0.28) !important;
+  background: var(--fe-ink) !important;
+  color: #ffffff !important;
+  border: 1.5px solid var(--fe-line) !important;
   font-weight: 500 !important;
 }
 .fe-nav__cta--secondary:hover {
-  background: rgba(37, 55, 70, 0.06) !important;
-  color: var(--fe-ink) !important;
-  border-color: rgba(37, 55, 70, 0.45) !important;
-  transform: translateY(-1px) !important;
+  background: var(--fe-ink) !important;
+  color: #ffffff !important;
+  border-color: var(--fe-line) !important;
+  transform: none !important;
   box-shadow: none !important;
 }
 .fe-nav__cta--secondary:active {
